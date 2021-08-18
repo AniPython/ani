@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="/static/css/docs.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+
+
+        <div class="highlight">
+            <pre class="prettyprint lang-python border-0">from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='/user/login/')
+def profile(request):
+    return render(request, "aniuser/profile.html")</pre>
+        </div>
+
+                <div class="highlight">
+            <pre class="prettyprint lang-python border-0">from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='/user/login/')
+def profile(request):
+    return render(request, "aniuser/profile.html")</pre>
+        </div>
+    </div>
+</div>
+
+<!--
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+-->
+
+<script src="/static/js/run_prettify.js"></script>
+<script src="/static/js/bootstrap.bundle.js"></script>
+<script src="/static/js/docs.js"></script>
+
+</body>
+</html>

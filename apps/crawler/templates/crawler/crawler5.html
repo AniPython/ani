@@ -1,0 +1,89 @@
+{% extends 'anibase.html' %}
+
+{% block title %}
+    学习爬虫
+{% endblock %}
+
+
+{% block head %}
+
+{% endblock %}
+
+
+
+{% block content %}
+    {% include 'crawler/includes/nav.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5 mb-3">
+                <div class="overflow-scroll" style="max-height: 90vh">
+
+                    <!-- 本页面反爬手段 -->
+                    <div class="rounded border p-3 mb-3">
+                        <h5>说明</h5><hr>
+                        <!-- TODO 1 -->
+                        反爬: 无
+                        <!-- End TODO 1 -->
+                    </div>
+                    <!-- 需求 -->
+                    <div class="card border-warning">
+                        <div class="card-header border-warning">
+                            <h5 class="card-title">爬取内容</h5>
+                            一张图片
+                        </div>
+                        <div class="card-body">
+                            <!-- TODO 2 -->
+                            <img class="rounded" src="/media/img/logo.png" alt="" width="60">
+                            <!-- End TODO 2 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="overflow-scroll" style="max-height: 90vh">
+
+                    <!-- 解题方法1 -->
+                    <div class="accordion mb-3" id="accordion1">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne1">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne1" aria-expanded="false"
+                                        aria-controls="flush-collapseOne1">
+                                    方案1: <code>urllib</code>&nbsp或&nbsp<code>requests</code>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne1" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-headingOne1"
+                                 data-bs-parent="#accordion1">
+                                <div class="accordion-body">
+                                    <!-- 代码 -->
+                                    <div>
+                                        <div class="highlight rounded-3">
+                                            <pre class="prettyprint lang-python border-0">{{ code_crawler5_1 }}</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            let href = window.location.href
+            let current_page = "page=1"
+            if (href.includes('?page=')) {
+                current_page = href.split('?')[1]
+            }
+            $('li').removeClass('active')
+            current_page = '?' + current_page
+            $(`[href='${current_page}']`).parent().addClass('active')
+        })
+    </script>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>Ani.ani.spiders.crawler4.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Ani.ani.spiders.crawler4.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">scrapy.linkextractors </span><span class="s0">import </span><span class="s1">LinkExtractor</span>
+<span class="s0">from </span><span class="s1">scrapy.spiders </span><span class="s0">import </span><span class="s1">CrawlSpider</span><span class="s0">, </span><span class="s1">Rule</span>
+
+
+<span class="s0">class </span><span class="s1">Crawler4Spider(CrawlSpider):</span>
+    <span class="s2"># 爬虫的名字, 爬虫可以有多个, 用于指定运行的是哪一个</span>
+    <span class="s1">name = </span><span class="s3">'crawler4'</span>
+    <span class="s2"># 允许进行爬取的域名, 比如 allowed_domains=['qq.com'], 就不会爬到 baidu.com</span>
+    <span class="s1">allowed_domains = [</span><span class="s3">'127.0.0.1'</span><span class="s1">]</span>
+    <span class="s2"># 第一次请求的地址, 此请求默认自动发送</span>
+    <span class="s1">start_urls = [</span><span class="s3">'http://127.0.0.1:8000/crawler/4/?page=1'</span><span class="s1">]</span>
+
+    <span class="s1">rules = (</span>
+        <span class="s2"># r'/crawler/4/\?page' 是正则匹配外层的 url, 每个请求到的页面都会自动提取</span>
+        <span class="s2"># callback 一般是用于写提取数据的逻辑</span>
+        <span class="s2"># follow=True 表示匹配到新的页面, 继续向这个页面发送请求, 因为有&quot;下一页&quot;的按钮中的url</span>
+        <span class="s2"># follow=True 就可能获取到全部的外层页面</span>
+        <span class="s1">Rule(LinkExtractor(allow=</span><span class="s3">r'/crawler/4/\?page'</span><span class="s1">)</span><span class="s0">, </span><span class="s1">callback=</span><span class="s0">None, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span><span class="s0">,</span>
+
+        <span class="s2"># r'/crawler/4/\d+' 是正则匹配里层详情的 url</span>
+        <span class="s2"># 详情页需要提取数据, 所以指定 callback</span>
+        <span class="s1">Rule(LinkExtractor(allow=</span><span class="s3">r'/crawler/4/\d+'</span><span class="s1">)</span><span class="s0">, </span><span class="s1">callback=</span><span class="s3">'parse_item'</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">False</span><span class="s1">)</span><span class="s0">,</span>
+    <span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">parse_item(self</span><span class="s0">, </span><span class="s1">response):</span>
+        <span class="s1">item = {}</span>
+        <span class="s1">item[</span><span class="s3">'title'</span><span class="s1">] = response.xpath(</span><span class="s3">'//div[@class=&quot;card-body&quot;]//h4[@class=&quot;title&quot;]/a/text()'</span><span class="s1">).get()</span>
+        <span class="s1">item[</span><span class="s3">'url'</span><span class="s1">] = response.xpath(</span><span class="s3">'//div[@class=&quot;card-body&quot;]//h4[@class=&quot;title&quot;]/a/@href'</span><span class="s1">).get()</span>
+        <span class="s1">item[</span><span class="s3">'desc'</span><span class="s1">] = response.xpath(</span><span class="s3">'//div[@class=&quot;card-body&quot;]//p/text()'</span><span class="s1">).get()</span>
+        <span class="s1">print(</span><span class="s3">&quot;*****&quot;</span><span class="s1">)</span>
+        <span class="s1">print(item)</span>
+        <span class="s0">return </span><span class="s1">item</span>
+</pre>
+</body>
+</html>
