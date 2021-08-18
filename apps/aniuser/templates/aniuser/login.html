@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <style>
+        .errorlist {
+            color: #dc3545
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row mt-5">
+
+        <form method="post" class="border rounded-3 p-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary" type="submit">登陆</button>
+        </form>
+
+        <p class="mt-2">
+            <a href="{% url 'aniuser:register' %}">注册</a>
+            &nbsp或&nbsp
+            <a href="{% url 'index' %}">返回主页</a>
+        </p>
+
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends 'anibase.html' %}
+
+{% block title %}
+    学习爬虫
+{% endblock %}
+
+
+{% block head %}
+
+{% endblock %}
+
+
+
+{% block content %}
+    {% include 'crawler/includes/nav.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 mb-3">
+                <div class="overflow-scroll" style="max-height: 90vh">
+
+                    <!-- 需求 -->
+                    <div class="card border-warning">
+                        <div class="card-header border-warning">
+                            爬取内容: 详情页
+                        </div>
+                        <div class="card-body">
+                            <!-- TODO 2 -->
+                            <div>
+                                <h4 class="title">
+                                    <a class="text-decoration-none" href="{{ learningresources.url }}">{{ learningresources.title }}</a>
+                                </h4>
+                                <p class="desc">{{ learningresources.desc }}</p>
+                            </div>
+
+                            <!-- End TODO 2 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="overflow-scroll" style="max-height: 90vh">
+                    <!-- 解题方法1 -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

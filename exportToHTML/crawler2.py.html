@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>crawler2.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #629755; font-style: italic;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #808080;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+crawler2.py</font>
+</center></td></tr></table>
+<pre><span class="s0">&quot;&quot;&quot; 
+使用 requests 和 xpath 
+$ pip install requests 
+$ pip install lxml 
+如果安装出错可以尝试更换国内源 
+$ pip install -i https://pypi.doubanio.com/simple lxml 
+&quot;&quot;&quot;</span>
+<span class="s2">import </span><span class="s1">requests</span>
+<span class="s2">from </span><span class="s1">lxml </span><span class="s2">import </span><span class="s1">etree</span>
+
+<span class="s3"># 1. 设置headers中的User-Agent, 发送请求, 获取响应</span>
+<span class="s1">host = </span><span class="s4">'http://127.0.0.1:8000'</span>
+<span class="s1">headers = {</span>
+    <span class="s4">'User-Agent'</span><span class="s1">: </span><span class="s4">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36'</span>
+<span class="s1">}</span>
+<span class="s1">response = requests.get(</span><span class="s4">f&quot;</span><span class="s2">{</span><span class="s1">host</span><span class="s2">}</span><span class="s4">/crawler/2/&quot;</span><span class="s2">, </span><span class="s1">headers=headers)</span>
+<span class="s3"># 2. 读取响应内容并解码成String</span>
+<span class="s1">html_text = response.text</span>
+<span class="s3"># 3. 把 String 字符串转成 Element 对象</span>
+<span class="s1">html_element = etree.HTML(html_text)</span>
+<span class="s3"># 4. 用 Element 对象的 xpath 方法提取想要的数据</span>
+<span class="s1">result_list = html_element.xpath(</span><span class="s4">'//div[contains(@class,&quot;card-body&quot;)][1]//text()'</span><span class="s1">)</span>
+<span class="s1">result_list = [x.strip() </span><span class="s2">for </span><span class="s1">x </span><span class="s2">in </span><span class="s1">result_list </span><span class="s2">if </span><span class="s1">x.strip()]</span>
+<span class="s1">print(result_list)</span>
+<span class="s3"># 输出: ['静夜思', '李白', '床前明月光，', '疑是地上霜。', '举头望明月，', '低头思故乡。']</span>
+</pre>
+</body>
+</html>

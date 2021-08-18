@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>crawler3.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #629755; font-style: italic;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #6a8759;}
+.s4 { color: #808080;}
+.s5 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+crawler3.py</font>
+</center></td></tr></table>
+<pre>
+    <span class="s0">&quot;&quot;&quot;
+直接找url的规律 
+&lt;host&gt;/crawler/3/?page=1 == &lt;host&gt;/crawler/3/ 
+&lt;host&gt;/crawler/3/?page=2 
+&lt;host&gt;/crawler/3/?page=3 
+获取最大页码进行遍历 
+&quot;&quot;&quot;</span>
+<span class="s2">import </span><span class="s1">requests</span>
+<span class="s2">from </span><span class="s1">lxml </span><span class="s2">import </span><span class="s1">etree</span>
+<span class="s2">import </span><span class="s1">time</span>
+
+<span class="s1">host = </span><span class="s3">'http://127.0.0.1:8000'</span>
+
+<span class="s4"># 后端限制每秒最多访问两次, 平均每次是 0.5 秒, 所以每次请求之后 sleep 0.6 秒</span>
+<span class="s1">sleep_time = </span><span class="s5">0.6</span>
+
+<span class="s4"># 1. 发送请求, 获取最大页码</span>
+<span class="s1">response = requests.get(</span><span class="s3">f&quot;</span><span class="s2">{</span><span class="s1">host</span><span class="s2">}</span><span class="s3">/crawler/3/&quot;</span><span class="s1">)</span>
+<span class="s1">time.sleep(sleep_time)</span>
+<span class="s1">html_text = response.text</span>
+<span class="s1">html_element = etree.HTML(html_text)</span>
+<span class="s1">max_page = html_element.xpath(</span><span class="s3">'//li[contains(@class,&quot;page-item&quot;)]/a[@class=&quot;page-link&quot;]/text()'</span><span class="s1">)[-</span><span class="s5">1</span><span class="s1">]</span>
+
+
+<span class="s4"># 得到的 max_page 是字符串类型的 &quot;3&quot;</span>
+
+
+<span class="s4"># 2. 定义解析每一个页面的函数, 参数是页码</span>
+<span class="s2">def </span><span class="s1">parse_page(p):</span>
+    <span class="s1">url = </span><span class="s3">f&quot;</span><span class="s2">{</span><span class="s1">host</span><span class="s2">}</span><span class="s3">/crawler/3/?page=</span><span class="s2">{</span><span class="s1">p</span><span class="s2">}</span><span class="s3">&quot;</span>
+    <span class="s1">res = requests.get(url)</span>
+    <span class="s1">time.sleep(sleep_time)</span>
+    <span class="s1">text = res.text</span>
+    <span class="s1">element = etree.HTML(text)</span>
+    <span class="s1">result_list = element.xpath(</span><span class="s3">'//div[@class=&quot;poem&quot;]//text()'</span><span class="s1">)</span>
+    <span class="s1">result_list = [x.strip() </span><span class="s2">for </span><span class="s1">x </span><span class="s2">in </span><span class="s1">result_list </span><span class="s2">if </span><span class="s1">x.strip()]</span>
+    <span class="s1">print(result_list)</span>
+
+
+<span class="s4"># 3. 遍历每一页</span>
+<span class="s2">for </span><span class="s1">page </span><span class="s2">in </span><span class="s1">range(int(max_page)):</span>
+    <span class="s1">parse_page(page + </span><span class="s5">1</span><span class="s1">)</span>
+
+<span class="s3">&quot;&quot;&quot; 
+输出: 
+['相思', '王维', '红豆生南国，', '春来发几枝。', '愿君多采撷，', '此物最相思。'] 
+['鹿柴', '王维', '空山不见人，', '但闻人语响。', '返景入深林，', '复照青苔上。'] 
+['渭城曲 / 送元二使安西', '王维', '渭城朝雨浥轻尘，', '客舍青青柳色新。', '劝君更尽一杯酒，', '西出阳关无故人。'] 
+&quot;&quot;&quot;</span>
+</pre>
+</body>
+</html>

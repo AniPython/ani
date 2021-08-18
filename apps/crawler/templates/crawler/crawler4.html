@@ -1,0 +1,194 @@
+{% extends 'anibase.html' %}
+
+{% block title %}
+    学习爬虫
+{% endblock %}
+
+
+{% block head %}
+
+{% endblock %}
+
+
+
+{% block content %}
+    {% include 'crawler/includes/nav.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5 mb-3">
+                <div class="overflow-scroll" style="max-height: 90vh">
+
+                    <!-- 本页面反爬手段 -->
+                    <div class="rounded border p-3 mb-3">
+                        <h5>说明</h5>
+                        <hr>
+                        <!-- TODO 1 -->
+                        反爬: 无
+                        <!-- End TODO 1 -->
+                    </div>
+                    <!-- 需求 -->
+                    <div class="card border-warning">
+                        <div class="card-header border-warning">
+                            <h5 class="card-title">爬取内容</h5>
+                            所有标题逐一点进去后的详情页的内容<br>
+                            有 3 个字段, 分别是 <code>title</code>, <code>url</code>和<code>desc</code>,
+                            并保存到本地 excel / csv / sql 数据库
+                        </div>
+                        <div class="card-body">
+                            <!-- TODO 2 -->
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                               aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link"
+                                               href="" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                    {% for page in paginator.page_range %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page={{ page }}">{{ page }}</a>
+                                        </li>
+                                    {% endfor %}
+
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                                               aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href=""
+                                               aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                </ul>
+                            </nav>
+                            <div class="title">
+                                {% for item in page_obj %}
+                                    <p>
+                                        <a class="text-decoration-none" href="{% url 'crawler:crawler4_detail' item.id %}">{{ item.title }}</a>
+                                    </p>
+                                {% endfor %}
+                            </div>
+                            <!-- End TODO 2 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="overflow-scroll" style="max-height: 90vh">
+
+                    <!-- 解题方法1 -->
+                    <div class="accordion mb-3" id="accordion1">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne1">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne1" aria-expanded="false"
+                                        aria-controls="flush-collapseOne1">
+                                    方案1: <code>requests</code>, <code>xpath</code>, <code>pandas</code>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne1" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-headingOne1"
+                                 data-bs-parent="#accordion1">
+                                <div class="accordion-body">
+                                    <!-- 代码 -->
+                                    <h5 class="card-title">获取全部结果统一输出</h5>
+                                    <p class="card-text">
+                                        1. 从外层的全部页面, 获取全部的 title url <br>
+                                        2. 遍历全部的 title url, 获取详情页内容 <br>
+                                        3. 保存到本地 <br>
+                                    </p>
+
+                                    <div>
+                                        <div class="highlight rounded-3">
+                                            <pre class="prettyprint lang-python border-0">{{ code_crawler4_1 }}</pre>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 解题方法2 -->
+                    <div class="accordion mb-3" id="accordion2">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne2" aria-expanded="false"
+                                        aria-controls="flush-collapseOne2">
+                                    方案2: <code>scrapy</code>爬虫框架
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne2" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-headingOne2"
+                                 data-bs-parent="#accordion2">
+                                <div class="accordion-body">
+                                    <!-- 代码 -->
+                                    <h5>scrapy</h5>
+                                    <ul>
+                                        <li>scrapy 是最流行的爬虫框架</li>
+                                        <li>爬虫工程师必知必会</li>
+                                        <li>它可以帮忙我们更好更快地完成任务</li>
+                                    </ul>
+                                    <h5>安装和基本使用</h5>
+                                    <div>
+                                        <div class="highlight rounded-3">
+                            <pre class="language-bash">$ pip3 install scrapy
+$ scrapy startproject ani Ani
+$ cd Ani
+$ scrapy genspider -t crawl crawler4 127.0.0.1:8000
+// 修改代码 Ani.ani.spiders.crawler4.py
+$ scrapy crawl crawler4 -o result.csv</pre>
+                                        </div>
+                                    </div>
+                                    <h5>完整代码</h5>
+                                    <div>
+                                        <div class="highlight rounded-3">
+                                            <pre class="prettyprint lang-python border-0">{{ code_crawler4_2 }}</pre>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            let href = window.location.href
+            let current_page = "page=1"
+            if (href.includes('?page=')) {
+                current_page = href.split('?')[1]
+            }
+            $('li').removeClass('active')
+            current_page = '?' + current_page
+            $(`[href='${current_page}']`).parent().addClass('active')
+        })
+    </script>
+
+{% endblock %}

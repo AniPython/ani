@@ -1,0 +1,157 @@
+{% extends 'anibase.html' %}
+
+{% block title %}
+    学习爬虫
+{% endblock %}
+
+
+{% block head %}
+
+{% endblock %}
+
+
+
+{% block content %}
+    {% include 'crawler/includes/nav.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5 mb-3">
+                <div class="overflow-scroll" style="max-height: 90vh">
+                    <!-- 本页面反爬手段 -->
+                    <div class="rounded border p-3 mb-3">
+                        <h5>说明</h5>
+                        <hr>
+                        <!-- TODO 1 -->
+                        提供下载功能的<code>django</code>后端代码片段
+                        <div>
+                            <div class="highlight rounded-3">
+                                <pre class="prettyprint lang-python border-0">urlpatterns = [
+    ...
+    path('crawler/6/download_file',
+          crawler6_download_file,
+          name='crawler6_download_file'),
+    ...
+]
+
+def crawler6_download_file(request):
+    """
+    文件下载
+    """
+    dir_ = Path(__file__).resolve().parent
+    file = open(dir_ / 'apps.py', 'rb')
+    response = FileResponse(file)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="apps.py"'
+    return response</pre>
+                            </div>
+                        </div>
+                        <!-- End TODO 1 -->
+                    </div>
+                    <!-- 需求 -->
+                    <div class="card border-warning">
+                        <div class="card-header border-warning">
+                            <h5 class="card-title m-0">爬取内容</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- TODO 2 -->
+                            下载文件: <a class="btn btn-primary"
+                                     href="{% url 'crawler:crawler6_download_file' %}">apps.py</a>
+                            <!-- End TODO 2 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="overflow-scroll" style="max-height: 90vh">
+
+                    <!-- 解题方案1 -->
+                    <div class="accordion mb-3" id="accordion1">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne1">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne1" aria-expanded="false"
+                                        aria-controls="flush-collapseOne1">
+                                    方案1:&nbsp<code>requests</code>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne1" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-headingOne1"
+                                 data-bs-parent="#accordion1">
+                                <div class="accordion-body pb-0">
+                                    <!-- 代码 -->
+                                    <p class="card-text mb-1">
+                                        使用 chrome 浏览器 右键 -> 检查<br>
+                                        来查看获取文件的地址<br>
+                                    </p>
+                                    <img class="w-100" src="/media/img/crawler6_download_file.png" alt="">
+
+                                    <div class="mt-2">
+                                        <div class="highlight rounded-3">
+                                            <pre class="prettyprint lang-python border-0">{{ code_crawler6_1 }}</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 解题方案2 -->
+                    <div class="accordion" id="accordion2">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne2" aria-expanded="false"
+                                        aria-controls="flush-collapseOne2">
+                                    方案2:&nbsp使用&nbsp<code>selenium</code>&nbsp+&nbsp<code>Firefox</code>&nbsp+&nbsp<code>geckodriver</code>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne2" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-headingOne2"
+                                 data-bs-parent="#accordion2">
+                                <div class="accordion-body pb-0">
+                                    <!-- 代码 -->
+
+                                    1. 安装&nbsp<code>selenium</code>
+                                    <div>
+                                        <div class="highlight rounded-3">
+                                            <pre class="prettyprint lang-bash border-0">$ pip install selenium</pre>
+                                        </div>
+                                    </div>
+
+                                    2. 安装 Firefox 浏览器<br><br>
+                                    3. 下载&nbsp<a href="http://npm.taobao.org/mirrors/geckodriver/">geckodriver</a>
+                                    (需要解压), 并放到当前Python环境变量的其中一个路径下<br>
+                                    例如: /Library/Frameworks/Python.framework/Versions/3.9/bin/<br><br>
+
+                                    4. 代码
+                                    <div>
+                                        <div class="highlight rounded-3">
+                                            <pre class="prettyprint lang-python border-0">{{ code_crawler6_2 }}</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            let href = window.location.href
+            let current_page = "page=1"
+            if (href.includes('?page=')) {
+                current_page = href.split('?')[1]
+            }
+            $('li').removeClass('active')
+            current_page = '?' + current_page
+            $(`[href='${current_page}']`).parent().addClass('active')
+        })
+    </script>
+
+{% endblock %}

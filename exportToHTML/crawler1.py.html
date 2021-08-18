@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>crawler1.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #629755; font-style: italic;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+crawler1.py</font>
+</center></td></tr></table>
+<pre><span class="s0">&quot;&quot;&quot; 
+使用 urllib 和 re 
+&quot;&quot;&quot;</span>
+<span class="s2">from </span><span class="s1">urllib </span><span class="s2">import </span><span class="s1">request</span>
+<span class="s2">import </span><span class="s1">re</span>
+
+<span class="s1">host = </span><span class="s3">'http://127.0.0.1:8000'</span>
+<span class="s1">response = request.urlopen(</span><span class="s3">f&quot;</span><span class="s2">{</span><span class="s1">host</span><span class="s2">}</span><span class="s3">/crawler/crawler1/&quot;</span><span class="s1">)</span>
+<span class="s1">html_text = response.read().decode(</span><span class="s3">'utf-8'</span><span class="s1">)</span>
+<span class="s1">result = re.findall(</span><span class="s3">r'&lt;div class=&quot;card-body&quot;&gt;(.*?)&lt;/div&gt;'</span><span class="s2">, </span><span class="s1">html_text</span><span class="s2">, </span><span class="s1">re.S)[</span><span class="s4">0</span><span class="s1">].strip()</span>
+<span class="s1">print(result)</span>
+
+<span class="s3">&quot;&quot;&quot; 
+使用 requests 和 re 
+$ pip install requests 
+&quot;&quot;&quot;</span>
+<span class="s2">import </span><span class="s1">requests</span>
+<span class="s2">import </span><span class="s1">re</span>
+
+<span class="s1">host = </span><span class="s3">'http://127.0.0.1:8000'</span>
+<span class="s1">response = requests.get(</span><span class="s3">f&quot;</span><span class="s2">{</span><span class="s1">host</span><span class="s2">}</span><span class="s3">/crawler/crawler1/&quot;</span><span class="s1">)</span>
+<span class="s1">html_text = response.text</span>
+<span class="s1">result = re.findall(</span><span class="s3">r'&lt;div class=&quot;card-body&quot;&gt;(.*?)&lt;/div&gt;'</span><span class="s2">, </span><span class="s1">html_text</span><span class="s2">, </span><span class="s1">re.S)[</span><span class="s4">0</span><span class="s1">].strip()</span>
+<span class="s1">print(result)</span>
+
+<span class="s3">&quot;&quot;&quot; 
+使用 requests 和 xpath 
+$ pip install requests 
+$ pip install lxml 
+如果安装出错可以尝试更换国内源 
+$ pip install -i https://pypi.doubanio.com/simple lxml 
+&quot;&quot;&quot;</span>
+<span class="s2">import </span><span class="s1">requests</span>
+<span class="s2">from </span><span class="s1">lxml </span><span class="s2">import </span><span class="s1">etree</span>
+
+<span class="s1">host = </span><span class="s3">'http://127.0.0.1:8000'</span>
+<span class="s1">response = requests.get(</span><span class="s3">f&quot;</span><span class="s2">{</span><span class="s1">host</span><span class="s2">}</span><span class="s3">/crawler/crawler1/&quot;</span><span class="s1">)</span>
+<span class="s1">html_text = response.text</span>
+<span class="s1">html_element = etree.HTML(html_text)</span>
+<span class="s1">result = html_element.xpath(</span><span class="s3">'//div[@class=&quot;card-body&quot;]/text()'</span><span class="s1">)[</span><span class="s4">0</span><span class="s1">].strip()</span>
+<span class="s1">print(result)</span>
+</pre>
+</body>
+</html>

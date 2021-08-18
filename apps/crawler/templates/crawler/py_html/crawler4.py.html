@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>crawler4.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #629755; font-style: italic;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+.s5 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+crawler4.py</font>
+</center></td></tr></table>
+<pre><span class="s0">&quot;&quot;&quot; 
+安装依赖: 
+$ pip install pandas 
+$ pip install openpyxl
+ 
+思路: 
+先访问第一页 
+然后不断点击下一页 
+直到下一页不可点击为止 
+&quot;&quot;&quot;</span>
+
+<span class="s2">import </span><span class="s1">requests</span>
+<span class="s2">from </span><span class="s1">lxml </span><span class="s2">import </span><span class="s1">etree</span>
+<span class="s2">import </span><span class="s1">pandas </span><span class="s2">as </span><span class="s1">pd</span>
+
+<span class="s1">host = </span><span class="s3">'http://127.0.0.1:8000'</span>
+<span class="s1">base_url = </span><span class="s3">f&quot;</span><span class="s2">{</span><span class="s1">host</span><span class="s2">}</span><span class="s3">/crawler/4/?page=&quot;</span>
+<span class="s1">p = </span><span class="s4">1  </span><span class="s5"># 从第一页开始, 每循环一个次 p 自增 1</span>
+<span class="s1">is_break = </span><span class="s2">False  </span><span class="s5"># 控制 while True 循环跳出</span>
+<span class="s1">all_title_url_list = []</span>
+
+
+<span class="s2">def </span><span class="s1">get_current_title_url_list(url) -&gt; list:</span>
+    <span class="s0">&quot;&quot;&quot; 
+    获取单个页面下的全部 title url 
+    :param url: url 地址 
+    :return: title 的 href 属性的多个值组成的列表 
+    &quot;&quot;&quot;</span>
+    <span class="s2">global </span><span class="s1">is_break</span>
+    <span class="s1">response = requests.get(url)</span>
+    <span class="s1">text = response.text</span>
+    <span class="s1">element = etree.HTML(text)</span>
+
+    <span class="s5"># 不断获取下一页的url, 直到 li 标签出现 class=&quot;disabled&quot;</span>
+    <span class="s2">if </span><span class="s3">&quot;disabled&quot; </span><span class="s2">in </span><span class="s1">element.xpath(</span><span class="s3">'//ul[@class=&quot;pagination&quot;]/li[last()]/@class'</span><span class="s1">)[</span><span class="s4">0</span><span class="s1">]:</span>
+        <span class="s1">is_break = </span><span class="s2">True</span>
+
+    <span class="s2">return </span><span class="s1">element.xpath(</span><span class="s3">'//div[@class=&quot;title&quot;]/p/a/@href'</span><span class="s1">)</span>
+
+
+<span class="s2">def </span><span class="s1">get_all_title_url_list():</span>
+    <span class="s0">&quot;&quot;&quot; 
+    获取所有的 title_url 
+    :return: list 
+    &quot;&quot;&quot;</span>
+    <span class="s2">global </span><span class="s1">p</span><span class="s2">, </span><span class="s1">all_title_url_list</span>
+    <span class="s2">while True</span><span class="s1">:</span>
+        <span class="s1">title_url_list = get_current_title_url_list(base_url + str(p))</span>
+        <span class="s1">all_title_url_list.extend(title_url_list)</span>
+        <span class="s1">p += </span><span class="s4">1</span>
+        <span class="s2">if </span><span class="s1">is_break:</span>
+            <span class="s2">break</span>
+
+
+<span class="s2">def </span><span class="s1">get_detail(url):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    解析详情页 
+    &quot;&quot;&quot;</span>
+    <span class="s1">response = requests.get(url)</span>
+    <span class="s1">text = response.text</span>
+    <span class="s1">element = etree.HTML(text)</span>
+
+    <span class="s5"># 开始解析每个字段的值</span>
+    <span class="s1">title = element.xpath(</span><span class="s3">'//div[@class=&quot;card-body&quot;]//h4[@class=&quot;title&quot;]/a/text()'</span><span class="s1">)[</span><span class="s4">0</span><span class="s1">]</span>
+    <span class="s1">url = element.xpath(</span><span class="s3">'//div[@class=&quot;card-body&quot;]//h4[@class=&quot;title&quot;]/a/@href'</span><span class="s1">)[</span><span class="s4">0</span><span class="s1">]</span>
+    <span class="s1">desc = element.xpath(</span><span class="s3">'//div[@class=&quot;card-body&quot;]//p/text()'</span><span class="s1">)[</span><span class="s4">0</span><span class="s1">]</span>
+
+    <span class="s5"># 组成列表直接返回</span>
+    <span class="s2">return </span><span class="s1">[title</span><span class="s2">, </span><span class="s1">url</span><span class="s2">, </span><span class="s1">desc]</span>
+
+
+<span class="s2">if </span><span class="s1">__name__ == </span><span class="s3">'__main__'</span><span class="s1">:</span>
+    <span class="s5"># 1: 获取全部的 title url</span>
+    <span class="s1">get_all_title_url_list()</span>
+
+    <span class="s5"># 2: 遍历全部的 title url, 获取详情</span>
+    <span class="s1">result_2d_list = []</span>
+    <span class="s2">for </span><span class="s1">title_url </span><span class="s2">in </span><span class="s1">all_title_url_list:</span>
+        <span class="s1">result_2d_list.append(get_detail(host + title_url))</span>
+
+    <span class="s5"># 3: 遍历全部的 title url, 获取详情</span>
+    <span class="s1">df = pd.DataFrame(result_2d_list</span><span class="s2">, </span><span class="s1">columns=[</span><span class="s3">&quot;title&quot;</span><span class="s2">, </span><span class="s3">&quot;url&quot;</span><span class="s2">, </span><span class="s3">&quot;desc&quot;</span><span class="s1">])</span>
+    <span class="s1">df.to_excel(</span><span class="s3">'results.xlsx'</span><span class="s2">, </span><span class="s1">index=</span><span class="s2">False</span><span class="s1">)</span>
+
+</pre>
+</body>
+</html>
