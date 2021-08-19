@@ -1,0 +1,32 @@
+{% extends 'anibase.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block title %}
+    aaa
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {% for snippet in snippet_list %}
+                    <h3>{{ snippet.title }}</h3>
+
+                    {% for tag in snippet.tag.all %}
+                        <span class="badge bg-info">{{ tag.name }}</span>
+                    {% endfor %}
+
+
+                    {{ snippet.content|safe }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

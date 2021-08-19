@@ -32,10 +32,12 @@ def video(request):
 urlpatterns = [
     path('', index, name='index'),
     path('admin/', admin.site.urls),
+    path('tinymce/', include('tinymce.urls')),
     path('crawler/', include('apps.crawler.urls')),
     path('pandas/', include('apps.pandas.urls')),
     path('user/', include('apps.aniuser.urls')),
     path('video/', video, name='video'),
+    path('snippet/', include('apps.snippet.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

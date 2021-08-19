@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +11,9 @@
 
     <link rel="stylesheet" href="/static/css/bootstrap.css">
     <link rel="stylesheet" href="/static/css/docs.css">
+
+    <!-- Prism CSS -->
+    <link href="{% static "tinymce/css/prism.css" %}" rel="stylesheet">
 
 
     <style>
@@ -45,6 +49,9 @@
                 </li>
                 <li class="nav-item">
                     <a id="crawler" class="nav-link" href="{% url 'crawler:index' %}">爬虫</a>
+                </li>
+                <li class="nav-item">
+                    <a id="snippet" class="nav-link" href="{% url 'snippet:index' %}">代码片段</a>
                 </li>
             </ul>
             <div class="d-flex">
@@ -87,6 +94,8 @@
 <script src="/static/js/bootstrap.bundle.js"></script>
 <script src="/static/js/docs.js"></script>
 <script src="/static/js/jquery.min.js"></script>
+<!-- Prism JS -->
+<script src="{% static "tinymce/js/prism.js" %}"></script>
 
 <script>
 
