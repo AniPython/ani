@@ -29,7 +29,7 @@
     {% block head %}{% endblock %}
 
 </head>
-<body class="position-relative min-vh-100 pb-5">
+<body class="position-relative min-vh-100" style="padding-bottom: 80px">
 
 <nav id="navbar" class="navbar navbar-expand-sm navbar-light bg-light">
     <div class="container-fluid">
@@ -57,9 +57,9 @@
             <div class="d-flex">
                 {% if user.is_authenticated %}
                     <a href="" class="btn me-2">{{ user.username }}</a>
-                    <!--
-                    <a href="{% url 'aniuser:profile' %}" class="btn me-2">个人中心</a>
-                    -->
+
+                    <a href="{% url 'snippet:post_snippet' %}" class="btn me-2">发布代码片段</a>
+
                     <a href="{% url 'aniuser:logout' %}" class="btn btn-outline-secondary">退出</a>
                 {% else %}
                     <a href="{% url 'aniuser:login' %}" class="btn me-2">登陆</a>

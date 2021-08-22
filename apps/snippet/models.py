@@ -1,8 +1,6 @@
 from django.db import models
 from shortuuidfield import ShortUUIDField
 from tinymce.models import HTMLField
-import re
-import django_filters
 
 
 class SnippetTag(models.Model):
@@ -20,8 +18,8 @@ class Snippet(models.Model):
     id = ShortUUIDField(primary_key=True)
     title = models.CharField('标题', max_length=200)
     content = HTMLField('正文')
-    tag = models.ManyToManyField('SnippetTag')
-    author = models.ForeignKey('aniuser.AniUser', on_delete=models.SET_NULL, null=True)
+    tag = models.ManyToManyField('SnippetTag', verbose_name='标签')
+    author = models.ForeignKey('aniuser.AniUser', on_delete=models.SET_NULL, null=True, verbose_name='作者')
     create_time = models.DateTimeField('创建时间', auto_now_add=True)
     update_time = models.DateTimeField('更新时间', auto_now=True)
 

@@ -9,4 +9,5 @@ urlpatterns = [
     path('', SnippetListView.as_view(), name='index'),
     path('<str:pk>', SnippetDetailView.as_view(), name='detail'),
     path('post_comment/', post_comment, name='post_comment'),
+    path('post_snippet/', SnippetCreateView.as_view(), name='post_snippet'),
 ]

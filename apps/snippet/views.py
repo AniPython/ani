@@ -1,9 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.shortcuts import render, redirect
 from django.views import View
-
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import PostCommentForm
 from .models import *
@@ -79,3 +78,34 @@ def post_comment(request):
             return redirect(f'/snippet/{snippet_id}')
         else:
             return HttpResponse('评论出错了')
+
+
+class SnippetCreateView(CreateView):
+    model = Snippet
+    fields = ['title', 'content', 'tag']
+    template_name = 'snippet/snippet_create.html'
+
+
+    def post(self, request, *args, **kwargs):
+
+        form = self.get_form()
+        if form.is_valid():
+            title = request.POST.get('title')
+            content = request.POST.get('content')
+            author_id = request.POST.get('author_id')
+            tag_id_list = request.POST.getlist('tag')
+
+            # 创建文章
+            snippet = Snippet.objects.create(title=title,
+                                             content=content,
+                                             author_id=author_id,
+                                             )
+
+            # 给文章添加标签
+            for tag_id in tag_id_list:
+                tag = SnippetTag.objects.get(id=int(tag_id))
+                tag.snippet_set.add(snippet)
+
+            return redirect('snippet:index')
+        else:
+            return render(request, 'snippet/snippet_create.html', context={'form': form})

@@ -33,14 +33,14 @@
                 <div class="article-list">
                     {% for snippet in snippet_list %}
                         <div class="article-container my-4">
-                            <div class="h1">
+                            <div class="h2">
                                 <a class="text-decoration-none text-dark"
                                    href="{% url 'snippet:detail' snippet.id %}">{{ snippet.title }}</a>
                             </div>
 
                             <div class="tag-container">
                                 {% for tag in snippet.tag.all %}
-                                    <span class="badge bg-info fs-6">{{ tag.name }}</span>
+                                    <span class="badge bg-info bg-gradient fs-6 me-1">{{ tag.name }}</span>
                                 {% endfor %}
                             </div>
 
