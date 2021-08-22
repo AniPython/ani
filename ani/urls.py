@@ -38,6 +38,7 @@ urlpatterns = [
     path('user/', include('apps.aniuser.urls')),
     path('video/', video, name='video'),
     path('snippet/', include('apps.snippet.urls')),
+    path(r'comments/', include('django_comments.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

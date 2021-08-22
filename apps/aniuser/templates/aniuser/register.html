@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Register</title>
     <link rel="stylesheet" href="/static/css/bootstrap.css">
-     <style>
+    <style>
         .errorlist {
             color: #dc3545
         }
@@ -17,13 +17,15 @@
 
         <form method="post" class="border rounded-3 p-3">
             {% csrf_token %}
-            {{ form.as_p }}
+                <table class="table table-borderless">
+                    {{ form.as_table }}
+                </table>
             <button type="submit" class="btn btn-primary">注册</button>
         </form>
         <p class="mt-2">
             <a href="{% url 'aniuser:login' %}">登陆</a>
             &nbsp或&nbsp
-             <a href="{% url 'index' %}">返回主页</a>
+            <a href="{% url 'index' %}">返回主页</a>
         </p>
 
     </div>

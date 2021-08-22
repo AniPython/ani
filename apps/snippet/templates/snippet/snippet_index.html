@@ -1,11 +1,13 @@
 {% extends 'anibase.html' %}
+{% load filters %}
+
 
 {% block head %}
 
 {% endblock %}
 
 {% block title %}
-    aaa
+    Snippet
 {% endblock %}
 
 
@@ -13,20 +15,76 @@
 
     <div class="container">
         <div class="row">
+
+
             <div class="col">
-                {% for snippet in snippet_list %}
-                    <h3>{{ snippet.title }}</h3>
 
-                    {% for tag in snippet.tag.all %}
-                        <span class="badge bg-info">{{ tag.name }}</span>
+                <div class="tag-container mt-4">
+                    <a id="all"
+                       class="tags btn btn-outline-secondary me-2 px-3 mt-2"
+                       href="?page=1&tag=">all</a>
+                    {% for tag in all_tags %}
+                        <a id="{{ tag.name }}"
+                           class="tags btn btn-outline-secondary text-decoration-none me-2 px-3 mt-2"
+                           href="?page=1&tag={{ tag.name }}">{{ tag.name }}</a>
                     {% endfor %}
+                </div>
 
+                <div class="article-list">
+                    {% for snippet in snippet_list %}
+                        <div class="article-container my-4">
+                            <div class="h1">
+                                <a class="text-decoration-none text-dark"
+                                   href="{% url 'snippet:detail' snippet.id %}">{{ snippet.title }}</a>
+                            </div>
 
-                    {{ snippet.content|safe }}
-                {% endfor %}
+                            <div class="tag-container">
+                                {% for tag in snippet.tag.all %}
+                                    <span class="badge bg-info fs-6">{{ tag.name }}</span>
+                                {% endfor %}
+                            </div>
+
+                            <div class="other-container my-2 text-black-50">
+                                <span class="">{{ snippet.author.username }}</span>
+                                <span class="ms-2">{{ snippet.create_time | time_since }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {# 分页 #}
+                {% include 'includes/pagination.html' %}
+
             </div>
         </div>
     </div>
 
+{% endblock %}
 
+{% block script_code %}
+    <script>
+        $(function () {
+            let href = window.location.href
+            // 高亮页码
+            let current_page = "page=1"
+            if (href.includes('?page=')) {
+                current_page = href.match(/page=\d+/)[0]
+            }
+            $('li').removeClass('active')
+            current_page = '?' + current_page + '&'
+            $(`[href*='${current_page}']`).parent().addClass('active')
+
+            // 高亮标签
+            let current_tag = "tag="
+            let element_id = "all"
+
+            if (href.match(/tag=\w+/)) {
+                element_id = href.match(/tag=(\w+)/)[1]
+            }
+            $('.tags').removeClass("btn-bd-primary").addClass("btn-outline-secondary")
+            $('#' + element_id).removeClass("btn-outline-secondary").addClass("btn-bd-primary")
+
+
+        })
+    </script>
 {% endblock %}

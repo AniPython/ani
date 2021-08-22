@@ -1,7 +1,8 @@
 from django.db import models
 from shortuuidfield import ShortUUIDField
 from tinymce.models import HTMLField
-
+import re
+import django_filters
 
 
 class SnippetTag(models.Model):
@@ -34,7 +35,7 @@ class Snippet(models.Model):
 
 
 class Comment(models.Model):
-    content = HTMLField('正文')
+    content = models.TextField(max_length=3000)
     snippet = models.ForeignKey('Snippet', on_delete=models.CASCADE)
     author = models.ForeignKey('aniuser.AniUser', on_delete=models.CASCADE)
     create_time = models.DateTimeField('创建时间', auto_now_add=True)
@@ -45,6 +46,6 @@ class Comment(models.Model):
         verbose_name = '评论'
         verbose_name_plural = verbose_name
 
-snippet = Snippet.objects.all().first()
+    def __str__(self):
+        return self.content[:8]
 
-snippet.tag

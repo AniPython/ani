@@ -1,4 +1,11 @@
 {% extends 'anibase.html' %}
+{% load static %}
+{% load filters %}
+
+
+{% block head %}
+    <link href="{% static "tinymce/css/prism.css" %}" rel="stylesheet">
+{% endblock %}
 
 {% block title %}
 
@@ -6,5 +13,87 @@
 
 
 {% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {# 标题 #}
+                <h1 class="my-3">{{ snippet.title }}</h1>
+                <div class="tag-container">
+                    {% for tag in snippet.tag.all %}
+                        <span class="badge bg-info fs-5">{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+                <div class="other-container my-2 text-black-50">
+                    <span>{{ snippet.author.username }}</span>
+                    <span class="ms-2">{{ snippet.create_time | time_since }}</span>
+                </div>
+                {# 正文 #}
+                <div class="content-container my-4">
+                    {{ snippet.content | safe }}
+                </div>
+                {# 评论 #}
+                {# 评论 form #}
+                <div class="h6">评论</div>
+                {% if request.user.is_authenticated %}
+                    <div class="form-container position-relative" style="max-width: 600px">
+                        <form action="{% url 'snippet:post_comment' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="snippet_id" value="{{ snippet.id }}">
+                            <textarea class="form-control" type="text" name="content"
+                                      required rows="3" placeholder="说点什么吧~"
+                            ></textarea>
+                            <button class="btn btn-sm btn-outline-primary position-absolute" type="submit"
+                                    style="bottom: 12px; right: 12px"
+                            >评论
+                            </button>
+                        </form>
+                    </div>
+                {% else %}
+                    <div class="">
+                        先 <a class="text-decoration-none"
+                             href="{% url 'aniuser:login' %}?next=/snippet/{{ snippet.pk }}">登录</a> 再发表评论
+                    </div>
+                {% endif %}
+                {# 评论列表 #}
+                <div id="comments" class="comments" style="max-width: 600px">
+                    {% for comment in comment_list %}
+                        <div class="my-3">
+                            <div class="fw-bolder">{{ comment.author.username }}</div>
+                            <div class="fw-normal">{{ comment.content }}</div>
+                            <div class="text-secondary">{{ comment.update_time|time_since }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {# 翻页 #}
+                {% if comment_list %}
+                    {% include 'includes/pagination.html' %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static "tinymce/js/prism.js" %}"></script>
+
+
+{% endblock %}
+
+{% block script_code %}
+    <script src="/static/js/jquery.min.js"></script>
+    <script>
+        $(function () {
+            let href = window.location.href
+            console.log(href)
+            // 高亮页码
+            let current_page = "page=1"
+            if (href.includes('?page=')) {
+                current_page = href.match(/page=\d+/)[0]
+            }
+            $('li').removeClass('active')
+            current_page = '?' + current_page
+            $(`[href*='${current_page}']`).parent().addClass('active')
+
+        })
+    </script>
 
 {% endblock %}
