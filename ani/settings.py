@@ -27,7 +27,7 @@ DEBUG = str(os.environ.get('DEBUG')) == '1'
 
 ALLOWED_HOSTS = ['127.0.0.1']
 if not DEBUG:
-    ALLOWED_HOSTS.append(os.environ.get('ALLOWED_HOSTS'))
+    ALLOWED_HOSTS += [os.environ.get('ALLOWED_HOSTS')]
 
 # Application definition
 
