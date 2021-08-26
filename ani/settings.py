@@ -174,4 +174,6 @@ TINYMCE_DEFAULT_CONFIG = {
 
 INTERNAL_IPS = [
     '127.0.0.1',
+    '39.108.112.236',
+    '172.31.93.1'
 ]
