@@ -22,7 +22,7 @@
                 <div class="tag-container mt-4">
                     <a id="all"
                        class="tags btn btn-outline-secondary me-2 px-3 mt-2"
-                       href="?page=1&tag=">all</a>
+                       href="?page=1">all</a>
                     {% for tag in all_tags %}
                         <a id="{{ tag.name }}"
                            class="tags btn btn-outline-secondary text-decoration-none me-2 px-3 mt-2"
@@ -31,29 +31,31 @@
                 </div>
 
                 <div class="article-list">
-                    {% for snippet in snippet_list %}
+                    {% for article in page_obj %}
                         <div class="article-container my-4">
                             <div class="h2">
                                 <a class="text-decoration-none text-dark"
-                                   href="{% url 'snippet:detail' snippet.id %}">{{ snippet.title }}</a>
+                                   href="{% url 'snippet:detail' article.id %}">{{ article.title }}</a>
                             </div>
 
                             <div class="tag-container">
-                                {% for tag in snippet.tag.all %}
+                                {% for tag in article.tag.all %}
                                     <span class="badge bg-info bg-gradient fs-6 me-1">{{ tag.name }}</span>
                                 {% endfor %}
                             </div>
 
                             <div class="other-container my-2 text-black-50">
-                                <span class="">{{ snippet.author.username }}</span>
-                                <span class="ms-2">{{ snippet.create_time | time_since }}</span>
+                                <span class="">{{ article.author.username }}</span>
+                                <span class="ms-2">{{ article.create_time | time_since }}</span>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
 
                 {# 分页 #}
-                {% include 'includes/pagination.html' %}
+                {% if article_list %}
+                    {% include 'includes/pagination.html' %}
+                {% endif %}
 
             </div>
         </div>
@@ -65,14 +67,6 @@
     <script>
         $(function () {
             let href = window.location.href
-            // 高亮页码
-            let current_page = "page=1"
-            if (href.includes('?page=')) {
-                current_page = href.match(/page=\d+/)[0]
-            }
-            $('li').removeClass('active')
-            current_page = '?' + current_page + '&'
-            $(`[href*='${current_page}']`).parent().addClass('active')
 
             // 高亮标签
             let current_tag = "tag="

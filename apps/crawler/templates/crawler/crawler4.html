@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-5 mb-3">
-                <div class="overflow-scroll" style="max-height: 90vh">
+                <div class="overflow-auto" style="max-height: 90vh">
 
                     <!-- 本页面反爬手段 -->
                     <div class="rounded border p-3 mb-3">
@@ -56,7 +56,7 @@
                                     {% endif %}
 
                                     {% for page in paginator.page_range %}
-                                        <li class="page-item">
+                                        <li id="page{{ page }}" class="page-item">
                                             <a class="page-link"
                                                href="?page={{ page }}">{{ page }}</a>
                                         </li>
@@ -94,7 +94,7 @@
             </div>
 
             <div class="col-lg-7">
-                <div class="overflow-scroll" style="max-height: 90vh">
+                <div class="overflow-auto" style="max-height: 90vh">
 
                     <!-- 解题方法1 -->
                     <div class="accordion mb-3" id="accordion1">
@@ -178,17 +178,5 @@ $ scrapy crawl crawler4 -o result.csv</pre>
         </div>
     </div>
 
-    <script>
-        $(function () {
-            let href = window.location.href
-            let current_page = "page=1"
-            if (href.includes('?page=')) {
-                current_page = href.split('?')[1]
-            }
-            $('li').removeClass('active')
-            current_page = '?' + current_page
-            $(`[href='${current_page}']`).parent().addClass('active')
-        })
-    </script>
 
 {% endblock %}

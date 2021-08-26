@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-5 mb-3">
-                <div class="overflow-scroll" style="max-height: 90vh">
+                <div class="overflow-auto overflow-scroll" style="max-height: 90vh;">
                     <!-- 本页面反爬手段 -->
                     <div class="rounded border p-3 mb-3">
                         <h5>说明</h5>
@@ -100,7 +100,7 @@ def crawler8_api(request):
 
 
             <div class="col-lg-7">
-                <div class="overflow-scroll" style="max-height: 90vh">
+                <div class="overflow-auto" style="max-height: 90vh">
 
                     <!-- 解题方法1 -->
                     <div class="accordion mb-3" id="accordion1">
@@ -136,7 +136,7 @@ def crawler8_api(request):
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#flush-collapseOne2" aria-expanded="false"
                                         aria-controls="flush-collapseOne2">
-                                        方案2:&nbsp使用&nbsp<code>selenium</code>&nbsp+&nbsp<code>Chrome</code>&nbsp+&nbsp<code>chromedriver</code>
+                                    方案2:&nbsp使用&nbsp<code>selenium</code>&nbsp+&nbsp<code>Chrome</code>&nbsp+&nbsp<code>chromedriver</code>
                                 </button>
                             </h2>
                             <div id="flush-collapseOne2" class="accordion-collapse collapse"
@@ -160,6 +160,12 @@ def crawler8_api(request):
         </div>
     </div>
 
+
+
+
+{% endblock %}
+
+{% block script_code %}
     <script>
         $(function () {
             let href = window.location.href
@@ -173,7 +179,7 @@ def crawler8_api(request):
         })
     </script>
 
-    <script src="https://unpkg.com/vue@next"></script>
+    <script src="/static/js/vue.global.3.2.4.js"></script>
     <script>
         const Card = {
             compilerOptions: {
@@ -195,6 +201,4 @@ def crawler8_api(request):
         }
         Vue.createApp(Card).mount('#card')
     </script>
-
-
 {% endblock %}

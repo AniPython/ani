@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CrawlerConfig(AppConfig):
+class CommentConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.pandas'
+    name = 'apps.comment'

@@ -1,14 +1,14 @@
 from django.contrib import admin
 
-from .models import SnippetTag, Snippet, Comment
-# from django_comments.models import Comment
+from .models import Tag, Article
 
 
-class SnippetCategoryAdmin(admin.ModelAdmin):
-    pass
+admin.site.register(Tag)
 
 
-admin.site.register(SnippetTag)
-admin.site.register(Snippet)
-admin.site.register(Comment)
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ['title', 'author']
+    readonly_fields = ['create_time', 'update_time']
+
 

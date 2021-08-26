@@ -6,8 +6,8 @@ from .views import *
 
 app_name = 'snippet'
 urlpatterns = [
-    path('', SnippetListView.as_view(), name='index'),
-    path('<str:pk>', SnippetDetailView.as_view(), name='detail'),
-    path('post_comment/', post_comment, name='post_comment'),
-    path('post_snippet/', SnippetCreateView.as_view(), name='post_snippet'),
+    path('article/', ArticleListView.as_view(), name='list'),
+    path('article/create/', ArticleCreateView.as_view(), name='create'),
+    path('article/<str:pk>/', article_detail_view, name='detail'),
+    path('article/<str:pk>/change/', ArticleUpdateView.as_view(), name='change'),
 ]

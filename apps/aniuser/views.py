@@ -29,17 +29,14 @@ def login_request(request):
         form = AuthenticationForm(request=request,
                                   data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('index')
-            else:
-                return redirect('aniuser:login')
-
-    form = AuthenticationForm()
-    return render(request, "aniuser/login.html", context={"form": form})
+            user = form.get_user()
+            login(request, user)
+            return redirect('index')
+        else:
+            return redirect('aniuser:login')
+    else:
+        form = AuthenticationForm()
+        return render(request, "aniuser/login.html", context={"form": form})
 
 
 def logout_request(request):

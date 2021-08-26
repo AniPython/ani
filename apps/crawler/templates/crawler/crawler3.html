@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-5 mb-3">
-                <div class="overflow-scroll" style="max-height: 90vh">
+                <div class="overflow-auto" style="max-height: 90vh">
                     <!-- 本页面反爬手段 -->
                     <div class="rounded border p-3 mb-3">
                         <h5>说明</h5>
@@ -47,9 +47,9 @@ def crawler3(request):
                         <div class="card-body text-center">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination justify-content-center">
-                                    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+                                    <li id="page1" class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                                    <li id="page2" class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                                    <li id="page3" class="page-item"><a class="page-link" href="?page=3">3</a></li>
                                 </ul>
                             </nav>
                             <div class="poem">
@@ -62,7 +62,7 @@ def crawler3(request):
 
 
             <div class="col-lg-7">
-                <div class="overflow-scroll" style="max-height: 90vh">
+                <div class="overflow-auto" style="max-height: 90vh">
                     <!-- 解题方法1 -->
                     <div class="accordion mb-2" id="accordion1">
                         <div class="accordion-item">
@@ -94,18 +94,6 @@ def crawler3(request):
         </div>
     </div>
 
-    <script>
-        $(function () {
-            let href = window.location.href
-            let current_page = "page=1"
-            if (href.includes('?page=')) {
-                current_page = href.split('?')[1]
-            }
-            $('li').removeClass('active')
-            current_page = '?' + current_page
-            $(`[href='${current_page}']`).parent().addClass('active')
-        })
-    </script>
 
 {% endblock %}
 

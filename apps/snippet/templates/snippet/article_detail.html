@@ -1,0 +1,117 @@
+{% extends 'anibase.html' %}
+{% load static %}
+{% load filters %}
+
+
+{% block head %}
+    <link href="{% static "tinymce/css/prism.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+
+        {# 显示文章 #}
+        <div class="row position-relative">
+
+            {% if article.author == user %}
+                <a href="{% url 'snippet:change' article.pk %}" class="position-absolute btn btn-outline-secondary"
+                   style="right: 2rem; top: 2rem; width: 6rem">
+                    重新编辑
+                </a>
+            {% endif %}
+
+            <div class="col">
+                {# 标题 #}
+                <h1 class="my-3">{{ article.title }}</h1>
+
+                <div class="tag-container">
+                    {% for tag in article.tag.all %}
+                        <span class="badge bg-info fs-5">{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+                <div class="other-container my-2 text-black-50">
+                    <span>{{ article.author.username }}</span>
+                    <span class="ms-2">{{ article.create_time | time_since }}</span>
+                </div>
+                {# 正文 #}
+                <div class="content-container my-4">
+                    {{ article.content | safe }}
+                </div>
+            </div>
+        </div>
+
+        {# 发表评论 #}
+        <div class="row">
+            <div class="h6">评论</div>
+            {% if request.user.is_authenticated %}
+                <div class="form-container position-relative" style="max-width: 600px">
+                    <form action="{% url 'comment:create' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="object_id" value="{{ article.id }}">
+                        <input type="hidden" name="content_type_id" value="{{ content_type_id }}">
+                        <textarea class="form-control" type="text" name="content"
+                                  required rows="3" placeholder="说点什么吧~"
+                        ></textarea>
+                        <button class="btn btn-sm btn-outline-primary position-absolute" type="submit"
+                                style="bottom: 16px; right: 26px"
+                        >评论
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="">
+                    先 <a class="text-decoration-none"
+                         href="{% url 'aniuser:login' %}?next=/snippet/article/{{ article.pk }}">登录</a> 再发表评论
+                </div>
+            {% endif %}
+        </div>
+
+        {# 显示评论 #}
+        <div class="row">
+            <div id="comments" class="comments" style="max-width: 600px">
+                {% for comment in page_obj %}
+                    <div class="my-3">
+                        <div class="fw-bolder">{{ comment.author.username }}</div>
+                        <div class="fw-normal">{{ comment.content }}</div>
+                        <div class="text-secondary">{{ comment.create_time|time_since }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            {# 翻页 #}
+            {% if comment_list %}
+                {% include 'includes/pagination.html' %}
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="{% static "tinymce/js/prism.js" %}"></script>
+
+
+{% endblock %}
+
+{% block script_code %}
+
+    {#    <script src="/static/js/jquery.min.js"></script>#}
+    {#    <script>#}
+    {#        $(function () {#}
+    {#            let href = window.location.href#}
+    {#            console.log(href)#}
+    {#            // 高亮页码#}
+    {#            let current_page = "page=1"#}
+    {#            if (href.includes('?page=')) {#}
+    {#                current_page = href.match(/page=\d+/)[0]#}
+    {#            }#}
+    {#            $('li').removeClass('active')#}
+    {#            current_page = '?' + current_page#}
+    {#            $(`[href*='${current_page}']`).parent().addClass('active')#}
+    {##}
+    {#        })#}
+    {#    </script>#}
+
+{% endblock %}
