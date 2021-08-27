@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from django.conf import settings
 from django.core.serializers import serialize
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
@@ -9,12 +10,11 @@ import re
 from ratelimit.decorators import ratelimit
 from django.views.generic import ListView, DetailView
 
-from ani.settings import BASE_DIR
 from .models import LearningResources
 from django.forms.models import model_to_dict
 from django.views.decorators.csrf import csrf_exempt
 
-crawler_code_dir = BASE_DIR / 'apps' / 'crawler' / 'code'
+crawler_code_dir = settings.BASE_DIR / 'apps' / 'crawler' / 'code'
 
 
 def crawler_index(request):
