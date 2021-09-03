@@ -3,12 +3,13 @@
 import os
 import sys
 import dotenv
+from django.conf import settings
 
 
 def main():
     """Run administrative tasks."""
 
-    dotenv.read_dotenv()
+    dotenv.read_dotenv(dotenv=settings.BASE_DIR / '.env')
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ani.settings')
     try:
         from django.core.management import execute_from_command_line
