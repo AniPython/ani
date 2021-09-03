@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import socket
 
+is_production = False
 if socket.gethostname() == 'iZwz9945xduhq7zwqzvmmnZ':
     is_production = True
 else:
@@ -28,8 +29,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY = os.environ.get('SECRET_KEY')
 SECRET_KEY = "lfighaiuh875nfgjiadg76ay25892394ey61"
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.environ.get('DEBUG') == '1'
-DEBUG = True
+DEBUG = os.environ.get('DEBUG') == '1'
+# DEBUG = True
 ALLOWED_HOSTS = ["0.0.0.0",
                  "127.0.0.1",
                  "39.108.112.236",
