@@ -7,9 +7,9 @@ class Crawler4Spider(CrawlSpider):
     # 爬虫的名字, 爬虫可以有多个, 用于指定运行的是哪一个
     name = 'crawler4'
     # 允许进行爬取的域名, 比如 allowed_domains=['qq.com'], 就不会爬到 baidu.com
-    allowed_domains = ['127.0.0.1']
+    allowed_domains = ['anipython.com']
     # 第一次请求的地址, 此请求默认自动发送
-    start_urls = ['http://127.0.0.1:8000/crawler/4/?page=1']
+    start_urls = ['http://anipython.com/crawler/4/?page=1']
 
     rules = (
         # r'/crawler/4/\?page' 是正则匹配外层的 url, 每个请求到的页面都会自动提取

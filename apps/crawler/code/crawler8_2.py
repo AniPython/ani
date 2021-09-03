@@ -4,8 +4,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-host = 'http://127.0.0.1:8000'
-url = f'{host}/crawler/8/'
+url = 'http://anipython.com/crawler/8/'
 
 # 打开 Chrome 浏览器
 driver = webdriver.Chrome()
@@ -29,7 +28,6 @@ text = driver.page_source
 element = etree.HTML(text)
 article_element_list = element.xpath('//div[contains(@class, "article-container")]')
 for article_element in article_element_list:
-
     title = article_element.xpath('./h5/a/text()')[0]
     url = article_element.xpath('./h5/a/@href')[0]
     desc = article_element.xpath('./p/text()')[0]

@@ -16,14 +16,16 @@ Including another URLconf
 
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.http import HttpResponse
 from django.urls import path, include
 from django.contrib.staticfiles.urls import static
 from django.conf import settings
 from django.shortcuts import render, redirect
+import allauth.account.urls
 
 
 def index(request):
-    return redirect('video')
+    return render(request, 'index.html')
 
 
 def video(request):
@@ -33,12 +35,14 @@ def video(request):
 urlpatterns = [
     path('', index, name='index'),
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
     path('tinymce/', include('tinymce.urls')),
     path('crawler/', include('apps.crawler.urls')),
     path('user/', include('apps.aniuser.urls')),
     path('video/', video, name='video'),
     path('snippet/', include('apps.snippet.urls')),
     path('comment/', include('apps.comment.urls')),
+    path('favor/', include('apps.favor.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

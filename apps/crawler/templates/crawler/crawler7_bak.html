@@ -1,0 +1,197 @@
+{% extends 'anibase.html' %}
+
+{% block title %}
+    学习爬虫
+{% endblock %}
+
+
+{% block head %}
+
+{% endblock %}
+
+
+
+{% block content %}
+    {% include 'crawler/includes/nav.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5 mb-3">
+                <div class="overflow-auto" style="max-height: 90vh">
+                    <!-- 本页面反爬手段 -->
+                    <div class="rounded border p-3 mb-3">
+                        <h5>说明</h5>
+                        <hr>
+                        <!-- TODO 1 -->
+                        设置登录才能访问, <code>django</code>后端代码片段
+                        <div>
+                            <div class="highlight rounded-3">
+                                <pre class="prettyprint lang-python border-0">from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='/user/login/')
+def profile(request):
+    return render(request, "aniuser/profile.html")</pre>
+                            </div>
+                        </div>
+                        <!-- End TODO 1 -->
+                    </div>
+                    <!-- 需求 -->
+                    <div class="card border-warning">
+                        <div class="card-header border-warning">
+                            <h5 class="card-title m-0">爬取内容</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- TODO 2 -->
+                            <a href="{% url 'aniuser:profile' %}">个人中心</a><br>
+                            获取个人中心里面的内容, 这个页面需要登录才能访问<br>
+                            url地址: &lthost&gt/user/profile/
+                            <!-- End TODO 2 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="overflow-auto" style="max-height: 90vh">
+
+                    <!-- 解题方法1 -->
+                    <div class="accordion mb-3" id="accordion1">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne1">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne1" aria-expanded="false"
+                                        aria-controls="flush-collapseOne1">
+                                    方案1:&nbsp手动从浏览器复制&nbsp<code>Cookie</code>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne1" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-headingOne1"
+                                 data-bs-parent="#accordion1">
+                                <div class="accordion-body pb-0">
+                                    <!-- 代码 -->
+                                    1. 手动注册一个帐号<br>
+                                    2. 手动登录<br>
+                                    <!--
+                                    <img class="w-100" src="/media/img/crawler7_1.png" alt="">
+                                    <img class="w-100" src="/media/img/crawler7_2.png" alt="">
+                                    -->
+                                    <img class="w-100" src="/media/img/crawler7_3.png" alt="">
+                                    3. 获取到的 <span class="text-info">Cookie: django_language=zh; csrftoken=KnjUSaI6QPjpa5q0TtvUMFgHu2cGJ5WWez9ZamtyO23PaWMOlFxxnVIatHskeitX; sessionid=e6esf37mby4a20zgp15xyf6rz050a43h</span><br>
+                                    <code>django_language</code>: django当前语言环境, 用不用都可以<br>
+                                    <code>csrftoken</code>: django内置的防止 <strong>跨站请求伪造</strong> 功能, 发 POST 请求必须带上, 发 GET
+                                    请求不必须<br>
+                                    <code>sessionid</code>: 模拟登录真正需要的, 后端依靠&nbspsessionid&nbsp判断用户是否已经登录, 登录的是哪个帐号.
+                                    sessionid 有过期时间, django默认是两周. 在这个方案, 只需要用 sessionid 即可.
+
+                                    <div class="mt-2">
+                                        <div class="highlight rounded-3">
+                                            <pre class="prettyprint lang-python border-0">{{ code_crawler7_1 }}</pre>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 解题方法2 -->
+                    <div class="accordion mb-3" id="accordion2">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne2" aria-expanded="false"
+                                        aria-controls="flush-collapseOne2">
+                                    方案2:&nbsp使用&nbsp<code>requests.Session</code>&nbsp来维持会话
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne2" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-headingOne2"
+                                 data-bs-parent="#accordion2">
+                                <div class="accordion-body pb-0">
+                                    <!-- 代码 -->
+                                    <code>requests</code>库的<code>Session</code>类可以帮助我们维持一个会话, 可以自动处理Cookies<br>
+                                    用法:
+                                    <div class="mt-2">
+                                        <div class="highlight rounded-3">
+                                            <pre class="prettyprint lang-python border-0">import requests
+
+# 使用
+session = requests.Session()
+session.get(...)
+session.post(...)
+
+# 代替之前的
+requests.get(...)
+requests.post(...)</pre>
+                                        </div>
+                                    </div>
+                                    完整代码
+                                    <div>
+                                        <div class="highlight rounded-3">
+                                            <pre class="prettyprint lang-python border-0">{{ code_crawler7_2 }}</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 解题方法3 -->
+                    <div class="accordion mb-3" id="accordion3">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne3">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne3" aria-expanded="false"
+                                        aria-controls="flush-collapseOne3">
+                                    方案3:&nbsp使用&nbsp<code>selenium</code>&nbsp+&nbsp<code>Chrome</code>&nbsp+&nbsp<code>chromedriver</code>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne3" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-headingOne3"
+                                 data-bs-parent="#accordion3">
+                                <div class="accordion-body pb-0">
+                                    <!-- 代码 -->
+
+                                    1. 安装&nbsp<code>selenium</code>
+                                    <div>
+                                        <div class="highlight rounded-3">
+                                            <pre class="prettyprint lang-python border-0">$ pip install selenium</pre>
+                                        </div>
+                                    </div>
+
+                                    2. 安装 Chrome 浏览器<br><br>
+                                    3. 下载&nbsp<a href="https://npm.taobao.org/mirrors/chromedriver/">chromedriver</a>,
+                                    注意: Chrome 与 chromedriver 的大版本号要一致, 例如都是 92.xxx.xxx<br>
+                                    (需要解压), 并放到当前Python环境变量的其中一个路径下<br>
+                                    例如: /Library/Frameworks/Python.framework/Versions/3.9/bin/<br><br>
+
+                                    4. 代码
+                                    <div>
+                                        <div class="highlight rounded-3">
+                                            <pre class="prettyprint lang-python border-0">{{ code_crawler7_3 }}</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            let href = window.location.href
+            let current_page = "page=1"
+            if (href.includes('?page=')) {
+                current_page = href.split('?')[1]
+            }
+            $('li').removeClass('active')
+            current_page = '?' + current_page
+            $(`[href='${current_page}']`).parent().addClass('active')
+        })
+    </script>
+
+{% endblock %}

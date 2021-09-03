@@ -1,6 +1,7 @@
 {% extends 'anibase.html' %}
 {% load static %}
 {% load filters %}
+{% load bootstrap4 %}
 
 
 {% block head %}
@@ -25,9 +26,10 @@
 
         <form action="" method="post">
             {% csrf_token %}
-            <table class="table table-borderless">
-                {{ form.as_table }}
-            </table>
+{#            <table class="table table-borderless">#}
+{#                {{ form.as_table }}#}
+{#            </table>#}
+            {% bootstrap_form form %}
             <p class="text-secondary" style="margin-top: -1rem">
                 标签按住 win 的 Control 键或者 Mac 的 Command 键可多选
             </p>

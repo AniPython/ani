@@ -6,7 +6,7 @@
 import requests
 from lxml import etree
 
-host = 'http://127.0.0.1:8000'
+host = 'http://anipython.com'
 
 response = requests.get(f"{host}/crawler/5/")
 text = response.text

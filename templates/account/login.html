@@ -1,0 +1,72 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load bootstrap4 %}
+
+{% block head_title %}
+    {% trans "Sign In" %}
+{% endblock %}
+
+{% block content %}
+    <div class="row align-items-center justify-content-center" style="height: 85vh">
+        <div class="border rounded p-3" style="width: 380px;">
+            <div>
+                <span class="h3">{% trans "Sign In" %}</span>
+                <span class="float-right" style="line-height: 33px">
+                    没有账号?&nbsp
+                    <a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
+                </span>
+            </div>
+
+            <hr>
+            <form class="login form" method="POST" action="{% url 'account_login' %}">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+                <button class="primaryAction btn btn-primary"
+                        type="submit">{% trans "Sign In" %}</button>
+                <a class="button secondaryAction float-right" style="line-height: 38px"
+                   href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+            </form>
+            <hr>
+            {#  第三方登录  #}
+            <p class="text-center">第三方登录</p>
+            <div class="oauth text-center">
+                <a class="mx-2" href="http://127.0.0.1:8000/accounts/weixin/login/?process=login">
+                    <img src="/static/svg/weixin.svg" alt="Bootstrap" width="34" height="34">
+                </a>
+                <a class="mx-2" href="http://127.0.0.1:8000/accounts/github/login/?process=login">
+                    <img src="/static/svg/github.svg" alt="Bootstrap" width="32" height="32"
+                         style="color: cornflowerblue;">
+                </a>
+                <a class="mx-2" href="http://127.0.0.1:8000/accounts/baidu/login/?process=login">
+                    百度
+                </a>
+            </div>
+
+            {% get_providers as socialaccount_providers %}
+            {% if socialaccount_providers %}
+                <p class="text-center">第三方登录</p>
+
+                <div class="socialaccount_ballot">
+
+                    <ul class="socialaccount_providers">
+                        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                    </ul>
+
+
+                </div>
+
+                {% include "socialaccount/snippets/login_extra.html" %}
+
+            {% else %}
+                <p>{% blocktrans %}If you have not created an account yet, then please
+                    <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

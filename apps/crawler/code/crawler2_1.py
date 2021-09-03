@@ -9,11 +9,10 @@ import requests
 from lxml import etree
 
 # 1. 设置headers中的User-Agent, 发送请求, 获取响应
-host = 'http://127.0.0.1:8000'
 headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36'
 }
-response = requests.get(f"{host}/crawler/2/", headers=headers)
+response = requests.get("http://anipython.com/crawler/2/", headers=headers)
 
 # 2. 读取响应内容并解码成String
 html_text = response.text

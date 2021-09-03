@@ -1,0 +1,116 @@
+{% extends 'anibase.html' %}
+
+
+{% block title %}
+    学习爬虫
+{% endblock %}
+
+
+{% block head %}
+
+{% endblock %}
+
+
+
+{% block content %}
+    {% include 'crawler/includes/nav.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5 mb-3">
+                <div class="overflow-auto" style="max-height: 90vh;">
+                    <!-- 本页面反爬手段 -->
+                    <div class="rounded border p-3 mb-3">
+                        <h5>说明</h5>
+                        <hr>
+                        {% block 说明 %}{% endblock %}
+                    </div>
+                    <!-- 需求 -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">爬取内容</h5>
+                        </div>
+                        <div class="card-body">
+                            {% block 爬取内容 %}{% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7 mb-5">
+                <div class="overflow-auto" style="max-height: 90vh;">
+
+                    <div class="accordion" id="accordionExample">
+
+                    {% block 方案1 %}
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left" type="button"
+                                            data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                            aria-controls="collapseOne">
+                                        {% block 方案1标题 %}{% endblock %}
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                                 data-parent="#accordionExample">
+                                <div class="card-body">
+                                    {% block 方案1详情 %}{% endblock %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endblock %}
+
+                    {% block 方案2 %}
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button"
+                                            data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                                            aria-controls="collapseTwo">
+                                        {% block 方案2标题 %}{% endblock %}
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                 data-parent="#accordionExample">
+                                <div class="card-body">
+                                     {% block 方案2详情 %}{% endblock %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endblock %}
+
+                    {% block 方案3 %}
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button"
+                                            data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+                                            aria-controls="collapseThree">
+                                        {% block 方案3标题 %}{% endblock %}
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                 data-parent="#accordionExample">
+                                <div class="card-body">
+                                    {% block 方案3详情 %}{% endblock %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endblock %}
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+

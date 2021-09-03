@@ -13,8 +13,7 @@ import requests
 from lxml import etree
 import pandas as pd
 
-host = 'http://127.0.0.1:8000'
-base_url = f"{host}/crawler/4/?page="
+base_url = "http://anipython.com/crawler/4/?page="
 p = 1  # 从第一页开始, 每循环一个次 p 自增 1
 is_break = False  # 控制 while True 循环跳出
 all_title_url_list = []
@@ -76,7 +75,7 @@ if __name__ == '__main__':
     # 2: 遍历全部的 title url, 获取详情
     result_2d_list = []
     for title_url in all_title_url_list:
-        result_2d_list.append(get_detail(host + title_url))
+        result_2d_list.append(get_detail("http://anipython.com" + title_url))
 
     # 3: 遍历全部的 title url, 获取详情
     df = pd.DataFrame(result_2d_list, columns=["title", "url", "desc"])

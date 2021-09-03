@@ -1,0 +1,30 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+    <div class="row align-items-center justify-content-center" style="height: 85vh">
+        <div class="border rounded p-3" style="width: 380px;">
+            <div>
+                <span class="h3">{% trans "Sign Up" %}</span>
+                <span class="float-right" style="line-height: 33px">
+                    已有账号?&nbsp
+                    <a href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
+                </span>
+            </div>
+            <hr>
+            <form class="signup mb-0" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+                <button class="btn btn-primary" type="submit">{% trans "Sign Up" %}</button>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

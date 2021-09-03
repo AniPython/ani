@@ -1,7 +1,7 @@
 import requests
 from lxml import etree
 
-host = 'http://127.0.0.1:8000'
+host = 'http://anipython.com'
 
 login_url = f"{host}/user/login/"  # 用于登录
 profile_url = f"{host}/user/profile/"  # 获取内容
@@ -16,8 +16,8 @@ csrftoken = element.xpath('//input[@name="csrfmiddlewaretoken"]/@value')[0]
 
 # 2. 用 post 请求到"登录页"模拟登录一次
 login_data = {
-    "username": "ani",
-    "password": "ani123456",
+    "username": "test_user",
+    "password": "tu123456789",
     "csrfmiddlewaretoken": csrftoken
 }
 session.post(url=login_url, data=login_data)
@@ -27,4 +27,4 @@ session.post(url=login_url, data=login_data)
 element = etree.HTML(session.get(profile_url).text)
 result = element.xpath('//div[@class="container"]//text()')
 print(result)
-# 输出: ['\n    ', '个人中心', '\n    ', '你的用户名是:&nbsp', 'ani', '\n']
+# 输出: ['\n    ', '个人中心', '\n    ', '你的用户名是:&nbsp', 'test_user', '\n']

@@ -1,9 +1,18 @@
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    {#    <link rel="stylesheet" href="/static/css/bootstrap.css">#}
     <style>
         .errorlist {
             color: #dc3545
@@ -13,9 +22,10 @@
 <body>
 
 <div class="container">
-    <div class="row mt-5">
 
-        <form method="post" class="border rounded-3 p-3">
+    <!--
+    <div class="row mt-5">
+        <form method="post" class="border rounded-3 p-3 form">
             {% csrf_token %}
             <table class="table table-borderless" style="max-width: 360px">
                 {{ form.as_table }}
@@ -28,6 +38,27 @@
             &nbsp或&nbsp
             <a href="{% url 'index' %}">返回主页</a>
         </p>
+    </div>
+    -->
+
+    <div class="row vh-100 align-items-center justify-content-center">
+
+        <div style="width: 500px;">
+            <form method="post" class="form p-3 border rounded">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% bootstrap_button "登陆" button_type="submit" button_class="btn-primary" %}
+            </form>
+            <p class="mt-2">
+                <a href="{% url 'aniuser:register' %}">注册</a>
+                &nbsp或&nbsp
+                <a href="{% url 'index' %}">返回主页</a>
+                <br>
+                <br>
+                <br>
+                <br>
+            </p>
+        </div>
 
     </div>
 </div>

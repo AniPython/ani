@@ -1,6 +1,9 @@
 {% extends 'anibase.html' %}
 {% load static %}
 {% load filters %}
+{% load django_htmx %}
+{% django_htmx_script %}
+
 
 
 {% block head %}
@@ -14,21 +17,20 @@
 
 {% block content %}
 
-    <div class="container">
+    <div class="container mt-5">
 
         {# 显示文章 #}
-        <div class="row position-relative">
-
-            {% if article.author == user %}
-                <a href="{% url 'snippet:change' article.pk %}" class="position-absolute btn btn-outline-secondary"
-                   style="right: 2rem; top: 2rem; width: 6rem">
-                    重新编辑
-                </a>
-            {% endif %}
-
+        <div class="row">
             <div class="col">
                 {# 标题 #}
-                <h1 class="my-3">{{ article.title }}</h1>
+                <div>
+                    <h1 class="my-3 d-inline">{{ article.title }}</h1>
+                    {% if article.author == user %}
+                        <a href="{% url 'snippet:change' article.pk %}">
+                            <i class="bi-pencil h5 mx-2"></i>
+                        </a>
+                    {% endif %}
+                </div>
 
                 <div class="tag-container">
                     {% for tag in article.tag.all %}
@@ -38,6 +40,20 @@
                 <div class="other-container my-2 text-black-50">
                     <span>{{ article.author.username }}</span>
                     <span class="ms-2">{{ article.create_time | time_since }}</span>
+                    {# 收藏 #}
+                    <script src="https://unpkg.com/htmx.org@1.5.0"></script>
+
+                    <form hx-post="{% url 'favor:toggle_favor' %}"
+                          hx-swap="outerHTML"
+                          hx-target="#star"
+                          class="d-inline">
+                        <input type="hidden" name="object_id" value="{{ object_id }}">
+                        <input type="hidden" name="content_type_id" value="{{ content_type_id }}">
+                        <input type="hidden" name="is_favor" value="{{ is_favor }}">
+                        {% include 'snippet/htmx/star_form.html' %}
+                    </form>
+
+
                 </div>
                 {# 正文 #}
                 <div class="content-container my-4">
@@ -59,7 +75,7 @@
                                   required rows="3" placeholder="说点什么吧~"
                         ></textarea>
                         <button class="btn btn-sm btn-outline-primary position-absolute" type="submit"
-                                style="bottom: 16px; right: 26px"
+                                style="bottom: 30px; right: 26px"
                         >评论
                         </button>
                     </form>

@@ -1,60 +1,47 @@
-{% extends 'anibase.html' %}
+{% extends 'crawler/includes/crawler_base.html' %}
 
-{% block title %}
-    学习爬虫
+{% block 说明 %}
+    xxx
 {% endblock %}
 
 
-
-{% block content %}
-    {% include 'crawler/includes/nav.html' %}
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="overflow-scroll" style="max-height: 90vh">
-                    <!-- 本页面反爬手段 -->
-                    <div class="bd-callout bd-callout-info mt-0">
-                        本页面反爬手段: 无
-                    </div>
-                    <!-- 需求 -->
-                    <div class="card">
-                        <div class="card-header">
-                            爬取内容
-                        </div>
-                        <div class="card-body">
-                            Hello world
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            {#                        <h4>静夜思</h4>#}
-            {#                        <h6 class="text-black-50">李白</h6>#}
-            {#                        <p>床前明月光，</p>#}
-            {#                        <p>疑是地上霜。</p>#}
-            {#                        <p>举头望明月，</p>#}
-            {#                        <p>低头思故乡。</p>#}
-
-
-            <div class="col-lg-6">
-                <div class="overflow-scroll" style="max-height: 90vh">
-                    <pre class="prettyprint lang-python rounded p-2">{{ python_code }}</pre>
-                    <pre class="prettyprint lang-python rounded p-2">{{ python_code }}</pre>
-                    <pre class="prettyprint lang-python rounded p-2">{{ python_code }}</pre>
-                    <pre class="prettyprint lang-python rounded p-2">{{ python_code }}</pre>
-                    <pre class="prettyprint lang-python rounded p-2">{{ python_code }}</pre>
-                    <pre class="prettyprint lang-python rounded p-2">{{ python_code }}</pre>
-                    <pre class="prettyprint lang-python rounded p-2">{{ python_code }}</pre>
-                    <pre class="prettyprint lang-python rounded p-2">{{ python_code }}</pre>
-                    <pre class="prettyprint lang-python rounded p-2">{{ python_code }}</pre>
-                    <pre class="prettyprint lang-python rounded p-2">{{ python_code }}</pre>
-                    <pre class="prettyprint lang-python rounded p-2">{{ python_code }}</pre>
-                </div>
-            </div>
-        </div>
-    </div>
+{% block 爬取内容 %}
+    xxx
 {% endblock %}
 
 
+{% block 方案1标题 %}
+    xxx
+{% endblock %}
+
+
+{% block 方案1详情 %}
+    xxx
+{% endblock %}
+
+
+{% block 方案2标题 %}
+    xxx
+{% endblock %}
+
+
+{% block 方案2详情 %}
+    xxx
+{% endblock %}
+
+
+{% block 方案3标题 %}
+    xxx
+{% endblock %}
+
+
+{% block 方案3详情 %}
+    xxx
+{% endblock %}
+
+
+{# 不显示方案2 #}
+{% block 方案2 %}{% endblock %}
+
+{# 不显示方案3 #}
+{% block 方案3 %}{% endblock %}

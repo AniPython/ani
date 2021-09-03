@@ -12,6 +12,7 @@ from django.views.generic import ListView, CreateView, UpdateView
 
 from .models import *
 from apps.comment.models import Comment
+from ..favor.models import Favor
 
 
 class ArticleListView(ListView):
@@ -47,11 +48,23 @@ def article_detail_view(request, pk):
         # 取单个 article
         article = get_object_or_404(Article, pk=pk)
 
-        # 取这个 article 下面的评论
         content_type = ContentType.objects.get_for_model(Article)
+
+        # 取这个 article 下面的评论
         comment_list = Comment.objects.filter(content_type=content_type, object_id=pk).all()
         paginator = Paginator(comment_list, 3)
         page_number = request.GET.get('page', '1')
+
+        if request.user.is_authenticated:
+            # 收藏
+            is_favor = Favor.objects.filter(
+                content_type=content_type,
+                object_id=article.pk,
+                author=request.user
+            ).exists()
+        else:
+            is_favor = False
+
         # 分页导航需要的 page_obj 和 elided_page_range
         page_obj = paginator.get_page(page_number)
         print(page_obj)
@@ -63,7 +76,10 @@ def article_detail_view(request, pk):
             "comment_list": comment_list,
             'page_obj': page_obj,
             'elided_page_range': elided_page_range,
-            'content_type_id': content_type.id
+            'content_type_id': content_type.id,
+            'is_favor': is_favor,
+            'object_id': article.id,
+            # 'is_favor_str': "1" if is_favor else "0"
         })
 
 

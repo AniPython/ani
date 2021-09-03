@@ -9,13 +9,12 @@ import requests
 from lxml import etree
 import time
 
-host = 'http://127.0.0.1:8000'
 
 # 后端限制每秒最多访问 2 次, 平均每次是 0.5 秒, 所以每次请求之后 sleep 0.6 秒
 sleep_time = 0.6
 
 # 1. 发送请求, 获取最大页码
-response = requests.get(f"{host}/crawler/3/")
+response = requests.get("http://anipython.com/crawler/3/")
 time.sleep(sleep_time)
 html_text = response.text
 html_element = etree.HTML(html_text)
@@ -25,7 +24,7 @@ max_page = html_element.xpath('//li[contains(@class,"page-item")]/a[@class="page
 
 # 2. 定义解析每一个页面的函数, 参数是页码
 def parse_page(p):
-    url = f"{host}/crawler/3/?page={p}"
+    url = f"http://anipython.com/crawler/3/?page={p}"
     res = requests.get(url)
     time.sleep(sleep_time)
     text = res.text

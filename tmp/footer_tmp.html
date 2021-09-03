@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<body class="d-flex flex-column h-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<main class="flex-shrink-0">
+    {% include 'includes/base_nav.html' %}
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer mt-auto bg-light w-100 text-center p-2">
+    <a class="text-decoration-none" href="http://www.beian.gov.cn/portal/index.do">粤ICP备19xxxxxx号</a>
+</footer>
+
+</body>
+</html>

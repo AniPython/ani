@@ -1,13 +1,11 @@
 import requests
 from lxml import etree
 
-
-host = 'http://127.0.0.1:8000'
-profile_url = f"{host}/user/profile/"
+profile_url = "http://anipython.com/user/profile/"
 
 # 下面设置的 sessionid 以你自己实际获取的为准
 headers = {
-    "Cookie": "sessionid=e6esf37mby4a20zgp15xyf6rz050a43h"
+    "Cookie": "sessionid=6ib8kwd1vy1sozmgvydwls53c6a5e1q1"
 }
 
 # headers -> Cookie -> sessionid

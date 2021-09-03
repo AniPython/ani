@@ -1,88 +1,58 @@
-{% extends 'anibase.html' %}
+{% extends 'crawler/includes/crawler_base.html' %}
 
-{% block title %}
-    学习爬虫
+{% block 说明 %}
+    反爬: 检测 <code>User-Agent</code>
 {% endblock %}
 
 
-{% block head %}
-
+{% block 爬取内容 %}
+    <div class="text-center">
+        <h4>静夜思</h4>
+        <h6 class="text-black-50">李白</h6>
+        <p>床前明月光，</p>
+        <p>疑是地上霜。</p>
+        <p>举头望明月，</p>
+        <p>低头思故乡。</p>
+    </div>
 {% endblock %}
 
 
-
-{% block content %}
-    {% include 'crawler/includes/nav.html' %}
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-5 mb-3">
-                <div class="overflow-auto" style="max-height: 90vh">
-                    <!-- 本页面反爬手段 -->
-                    <div class="rounded border p-3 mb-3">
-                        <h5>说明</h5>
-                        <hr>
-                        反爬: 检测 <code>User-Agent</code>
-
-                        <div>
-                            <div class="highlight rounded-3">
-                                <pre class="prettyprint lang-python border-0">{{ code1 }}</pre>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- 需求 -->
-                    <div class="card border-warning">
-                        <div class="card-header border-warning">
-                            爬取内容
-                        </div>
-                        <div class="card-body text-center">
-                            <h4>静夜思</h4>
-                            <h6 class="text-black-50">李白</h6>
-                            <p>床前明月光，</p>
-                            <p>疑是地上霜。</p>
-                            <p>举头望明月，</p>
-                            <p>低头思故乡。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{% block 方案1标题 %}
+    方案1. 使用<code>requests</code>和<code>xpath</code>
+{% endblock %}
 
 
-            <div class="col-lg-7">
-                <div class="overflow-auto" style="max-height: 90vh">
-                    <!-- 解题方案1 -->
-                    <div class="accordion mb-2" id="accordion1">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingOne1">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapseOne1" aria-expanded="false"
-                                        aria-controls="flush-collapseOne1">
-                                    方案1. 使用<code>requests</code>和<code>xpath</code>
-                                </button>
-                            </h2>
-                            <div id="flush-collapseOne1" class="accordion-collapse collapse"
-                                 aria-labelledby="flush-headingOne1"
-                                 data-bs-parent="#accordion1">
-                                <div class="accordion-body">
-                                    <!-- 代码 -->
-                                    <div>
-                                        <div class="highlight rounded-3">
-                                            <pre class="prettyprint lang-python border-0">{{ code_crawler2_1 }}</pre>
-                                        </div>
-                                    </div>
+{% block 方案1详情 %}
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+    <div class="highlight rounded-3">
+        <pre class="prettyprint lang-python border-0">{{ code_crawler2_1 }}</pre>
     </div>
 
-
 {% endblock %}
 
 
+{% block 方案2标题 %}
+    xxx
+{% endblock %}
+
+
+{% block 方案2详情 %}
+    xxx
+{% endblock %}
+
+
+{% block 方案3标题 %}
+    xxx
+{% endblock %}
+
+
+{% block 方案3详情 %}
+    xxx
+{% endblock %}
+
+
+{# 不显示方案2 #}
+{% block 方案2 %}{% endblock %}
+
+{# 不显示方案3 #}
+{% block 方案3 %}{% endblock %}

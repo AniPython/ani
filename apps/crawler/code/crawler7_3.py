@@ -4,7 +4,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-host = 'http://127.0.0.1:8000'
+host = 'http://anipython.com'
 
 login_url = f"{host}/user/login/"  # 用于登录
 profile_url = f"{host}/user/profile/"  # 获取内容
@@ -18,12 +18,12 @@ driver.get(login_url)
 # 输入用户名
 username_input = driver.find_element_by_name('username')
 username_input.clear()
-username_input.send_keys('ani')
+username_input.send_keys('test_user')
 
 # 输入密码
 username_input = driver.find_element_by_name('password')
 username_input.clear()
-username_input.send_keys('ani123456')
+username_input.send_keys('tu123456789')
 
 # 点击登陆
 login_btn = driver.find_element_by_xpath('//button[@type="submit"]')
@@ -45,7 +45,7 @@ element = etree.HTML(driver.page_source)
 # 也可以配合使用 xpath 语法进行解析
 result = element.xpath('//div[@class="container"]//text()')
 print(result)
-# 输出: ['\n    ', '个人中心', '\n    ', '你的用户名是:\xa0', 'ani', '\n']
+# 输出: ['\n    ', '个人中心', '\n    ', '你的用户名是:\xa0', 'test_user', '\n']
 
 # 最后退出浏览器
 driver.close()

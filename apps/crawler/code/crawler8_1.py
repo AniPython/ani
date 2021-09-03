@@ -1,11 +1,9 @@
 import requests
 
-host = 'http://127.0.0.1:8000'
-api_url = f'{host}/crawler/8/api'
+api_url = f'http://anipython.com/crawler/8/api'
 
 response = requests.get(api_url)
 data_dict = response.json()
-print(data_dict)
 """
 输出: 
 {

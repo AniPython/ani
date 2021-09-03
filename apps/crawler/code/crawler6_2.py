@@ -15,8 +15,7 @@ profile.set_preference('browser.helperApps.neverAsk.saveToDisk',
 driver = webdriver.Firefox(firefox_profile=profile)
 
 # 2. 打开下载按钮所在的页面
-host = 'http://127.0.0.1:8000'
-driver.get(f"{host}/crawler/6/")
+driver.get("http://anipython.com/crawler/6/")
 
 # 3. 用 xpath 语法找到下载按钮并点击
 driver.find_element_by_xpath('//div[@class="card-body"]/a[@class="btn btn-primary"]').click()

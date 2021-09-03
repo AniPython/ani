@@ -2,6 +2,12 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,linux,python,pycharm,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,linux,python,pycharm,visualstudiocode
 
+requests.png
+results.xlsx
+urlretrieve.png
+temp.py
+*_bak.html
+
 ### Linux ###
 *~
 

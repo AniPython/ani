@@ -8,8 +8,10 @@ User = get_user_model()
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
+    order = models.PositiveSmallIntegerField('排序', default=100)
 
     class Meta:
+        ordering = ['order', 'id']
         verbose_name = '标签'
         verbose_name_plural = verbose_name
 

@@ -9,7 +9,7 @@ import requests
 from lxml import etree
 
 host = 'http://127.0.0.1:8000'
-response = requests.get(f"{host}/crawler/1/")
+response = requests.get("http://anipython.com/crawler/1/")
 html_text = response.text
 html_element = etree.HTML(html_text)
 result = html_element.xpath('//div[@class="card-body"]/text()')[0].strip()

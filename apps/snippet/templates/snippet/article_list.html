@@ -15,17 +15,14 @@
 
     <div class="container">
         <div class="row">
-
-
             <div class="col">
-
-                <div class="tag-container mt-4">
+                <div class="tag-container my-3">
                     <a id="all"
-                       class="tags btn btn-outline-secondary me-2 px-3 mt-2"
+                       class="tags btn btn-outline-secondary mb-2 me-2 px-3"
                        href="?page=1">all</a>
                     {% for tag in all_tags %}
                         <a id="{{ tag.name }}"
-                           class="tags btn btn-outline-secondary text-decoration-none me-2 px-3 mt-2"
+                           class="tags btn btn-outline-secondary text-decoration-none mb-2 me-2 px-3"
                            href="?page=1&tag={{ tag.name }}">{{ tag.name }}</a>
                     {% endfor %}
                 </div>
@@ -69,15 +66,14 @@
             let href = window.location.href
 
             // 高亮标签
-            let current_tag = "tag="
+            {#let current_tag = "tag="#}
             let element_id = "all"
 
             if (href.match(/tag=\w+/)) {
                 element_id = href.match(/tag=(\w+)/)[1]
             }
-            $('.tags').removeClass("btn-bd-primary").addClass("btn-outline-secondary")
-            $('#' + element_id).removeClass("btn-outline-secondary").addClass("btn-bd-primary")
-
+            $('.tags').removeClass("btn-primary").addClass("btn-outline-secondary")
+            $('#' + element_id).removeClass("btn-outline-secondary").addClass("btn-primary")
 
         })
     </script>
