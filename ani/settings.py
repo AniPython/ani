@@ -31,7 +31,7 @@ SECRET_KEY = "lfighaiuh875nfgjiadg76ay25892394ey61"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG') == '1'
 # DEBUG = True
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["127.0.0.1", "anipython.com", "www.anipython.com", "39.108.112.236"]
 
 # ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
 
