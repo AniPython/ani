@@ -3,7 +3,10 @@ from django.contrib import admin
 from .models import Tag, Article
 
 
-admin.site.register(Tag)
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name', 'order')
+    list_editable = ('order',)
 
 
 @admin.register(Article)
