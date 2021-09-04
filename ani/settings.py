@@ -246,27 +246,27 @@ SOCIALACCOUNT_PROVIDERS = {
             'key': ''
         }
     },
-    'weixin': {
-        'APP': {
-            'client_id': '2e2a783e6bc444c720ab',
-            'secret': 'a097ab9ff59bc3844c359324363ba82e4c32b742',
-            'key': ''
-        }
-    },
-    'weibo': {
-        'APP': {
-            'client_id': '2e2a783e6bc444c720ab',
-            'secret': 'a097ab9ff59bc3844c359324363ba82e4c32b742',
-            'key': ''
-        }
-    },
-    # 'baidu': {
+    # 'weixin': {
     #     'APP': {
-    #         'client_id': 'fOOA1mfhaijN59Y8xNMVfsZL',  # API Key
-    #         'secret': 'aHXze1Q9fzbpqtiGM5lzoNj8T4Qg6oNI',  # Secret Key
-    #         # 'key': '24784865'
+    #         'client_id': '2e2a783e6bc444c720ab',
+    #         'secret': 'a097ab9ff59bc3844c359324363ba82e4c32b742',
+    #         'key': ''
     #     }
     # },
+    # 'weibo': {
+    #     'APP': {
+    #         'client_id': '2e2a783e6bc444c720ab',
+    #         'secret': 'a097ab9ff59bc3844c359324363ba82e4c32b742',
+    #         'key': ''
+    #     }
+    # },
+    'baidu': {
+        'APP': {
+            'client_id': 'fOOA1mfhaijN59Y8xNMVfsZL',  # API Key
+            'secret': 'aHXze1Q9fzbpqtiGM5lzoNj8T4Qg6oNI',  # Secret Key
+            # 'key': '24784865'
+        }
+    },
 }
 
 # 邮箱检验
