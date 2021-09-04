@@ -132,7 +132,7 @@ def crawler8_api(request):
             },
             beforeMount() {
                 let that = this
-                $.get("http://anipython.com/crawler/8/api", function (data, status) {
+                $.get("https://anipython.com/crawler/8/api/", function (data, status) {
                     if (status === 'success') {
                         that.data_list = data.data
                     }

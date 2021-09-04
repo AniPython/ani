@@ -16,7 +16,7 @@ urlpatterns = [
     path('6/download_file', crawler6_download_file, name='crawler6_download_file'),
     path('7/', crawler7, name='crawler7'),
     path('8/', crawler8, name='crawler8'),
-    path('8/api', crawler8_api, name='crawler8_api'),
+    path('8/api/', crawler8_api, name='crawler8_api'),
 ]
 
 # 不用经过 view 视图函数的 html

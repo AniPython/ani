@@ -1,6 +1,6 @@
 import requests
 
-api_url = f'http://anipython.com/crawler/8/api'
+api_url = 'https://anipython.com/crawler/8/api/'
 
 response = requests.get(api_url)
 data_dict = response.json()
