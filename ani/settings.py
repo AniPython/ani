@@ -242,7 +242,7 @@ SOCIALACCOUNT_PROVIDERS = {
         # credentials, or list them here:
         'APP': {
             'client_id': '2e2a783e6bc444c720ab',
-            'secret': 'a097ab9ff59bc3844c359324363ba82e4c32b742',
+            'secret': os.environ.get('GITHUB_SECRET'),
             'key': ''
         }
     },
@@ -273,7 +273,7 @@ SOCIALACCOUNT_PROVIDERS = {
 # mandatory: 发送电子邮件, 通过检验才能登录
 # optional(默认): 发送电子邮件, 不通过检验也可以登录
 # none: 不发送电子邮件, 不通过检验也可以登录
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 # 第三方登录不需要检验邮箱
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'

@@ -35,37 +35,37 @@
             {#  第三方登录  #}
             <p class="text-center">第三方登录</p>
             <div class="oauth text-center">
-                <a class="mx-2" href="http://127.0.0.1:8000/accounts/weixin/login/?process=login">
+                <a class="mx-2" href="https://anipython.com/accounts/weixin/login/?process=login">
                     <img src="/static/svg/weixin.svg" alt="Bootstrap" width="34" height="34">
                 </a>
-                <a class="mx-2" href="http://127.0.0.1:8000/accounts/github/login/?process=login">
+                <a class="mx-2" href="http://anipython.com/accounts/github/login/?process=login">
                     <img src="/static/svg/github.svg" alt="Bootstrap" width="32" height="32"
                          style="color: cornflowerblue;">
                 </a>
-                <a class="mx-2" href="http://127.0.0.1:8000/accounts/baidu/login/?process=login">
-                    百度
-                </a>
+{#                <a class="mx-2" href="http://anipython.com/accounts/baidu/login/?process=login">#}
+{#                    百度#}
+{#                </a>#}
             </div>
 
-            {% get_providers as socialaccount_providers %}
-            {% if socialaccount_providers %}
-                <p class="text-center">第三方登录</p>
-
-                <div class="socialaccount_ballot">
-
-                    <ul class="socialaccount_providers">
-                        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                    </ul>
-
-
-                </div>
-
-                {% include "socialaccount/snippets/login_extra.html" %}
-
-            {% else %}
-                <p>{% blocktrans %}If you have not created an account yet, then please
-                    <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-            {% endif %}
+{#            {% get_providers as socialaccount_providers %}#}
+{#            {% if socialaccount_providers %}#}
+{#                <p class="text-center">第三方登录</p>#}
+{##}
+{#                <div class="socialaccount_ballot">#}
+{##}
+{#                    <ul class="socialaccount_providers">#}
+{#                        {% include "socialaccount/snippets/provider_list.html" with process="login" %}#}
+{#                    </ul>#}
+{##}
+{##}
+{#                </div>#}
+{##}
+{#                {% include "socialaccount/snippets/login_extra.html" %}#}
+{##}
+{#            {% else %}#}
+{#                <p>{% blocktrans %}If you have not created an account yet, then please#}
+{#                    <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>#}
+{#            {% endif %}#}
 
         </div>
     </div>
