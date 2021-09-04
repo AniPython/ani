@@ -4,6 +4,7 @@ api_url = 'https://anipython.com/crawler/8/api/'
 
 response = requests.get(api_url)
 data_dict = response.json()
+print(data_dict)
 """
 输出: 
 {
