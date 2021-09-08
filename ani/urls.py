@@ -36,7 +36,9 @@ urlpatterns = [
     path('', index, name='index'),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('tinymce/', include('tinymce.urls')),
+    # path('tinymce/', include('tinymce.urls')),
+    # path('mdeditor/', include('mdeditor.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('crawler/', include('apps.crawler.urls')),
     path('user/', include('apps.aniuser.urls')),
     path('video/', video, name='video'),
@@ -50,4 +52,10 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns.append(path('__debug__/', include(debug_toolbar.urls)))
+
+# mdeditor
+# if settings.DEBUG:
+#     # static files (images, css, javascript, etc.)
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

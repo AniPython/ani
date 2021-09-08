@@ -8,7 +8,6 @@ $ pip install -i https://pypi.doubanio.com/simple lxml
 import requests
 from lxml import etree
 
-host = 'http://127.0.0.1:8000'
 response = requests.get("http://anipython.com/crawler/1/")
 html_text = response.text
 html_element = etree.HTML(html_text)

@@ -1,5 +1,10 @@
 {% extends 'anibase.html' %}
 {% load filters %}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{#{% bootstrap_css %}#}
+{#{% bootstrap_javascript jquery='full' %}#}
 
 
 {% block head %}
@@ -37,7 +42,7 @@
 
                             <div class="tag-container">
                                 {% for tag in article.tag.all %}
-                                    <span class="badge bg-info bg-gradient fs-6 me-1">{{ tag.name }}</span>
+                                    <span class="badge badge-info" style="font-size: large">{{ tag.name }}</span>
                                 {% endfor %}
                             </div>
 
@@ -51,7 +56,7 @@
 
                 {# 分页 #}
                 {% if article_list %}
-                    {% include 'includes/pagination.html' %}
+                    {% bootstrap_pagination page_obj extra=request.GET.urlencode %}
                 {% endif %}
 
             </div>

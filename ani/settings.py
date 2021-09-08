@@ -46,7 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',  # 手动加
     'debug_toolbar',
-    'tinymce',
+    # 'tinymce',
+    # 'mdeditor',
+    'ckeditor',
+    'ckeditor_uploader',
     'apps.aniuser',
     'apps.crawler',
     'apps.comment',
@@ -75,7 +78,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -175,40 +178,41 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'uploads'
+MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/'
 
 # 富文本: django-tinymce4-lite
-TINYMCE_DEFAULT_CONFIG = {
-    'height': 360,
-    # 'width': 1120,
-    'cleanup_on_startup': True,
-    'custom_undo_redo_levels': 20,
-    'selector': 'textarea',
-    'theme': 'modern',
-    'plugins': '''
-            textcolor save link image media preview codesample contextmenu
-            table code lists fullscreen  insertdatetime  nonbreaking
-            contextmenu directionality searchreplace wordcount visualblocks
-            visualchars code fullscreen autolink lists  charmap print  hr
-            anchor pagebreak
-            ''',
-    'toolbar1': '''
-            fullscreen preview bold italic underline | fontselect,
-            fontsizeselect  | forecolor backcolor | alignleft alignright |
-            aligncenter alignjustify | indent outdent | bullist numlist table |
-            | link image media | codesample |
-            ''',
-    'toolbar2': '''
-            visualblocks visualchars |
-            charmap hr pagebreak nonbreaking anchor |  code |
-            ''',
-    'contextmenu': 'formats | link image',
-    'menubar': True,
-    'statusbar': True,
-}
+# TINYMCE_DEFAULT_CONFIG = {
+#     'height': 360,
+#     # 'width': 1120,
+#     'white-space': 'null',
+#     'cleanup_on_startup': True,
+#     'custom_undo_redo_levels': 20,
+#     'selector': 'textarea',
+#     'theme': 'modern',
+#     'plugins': '''
+#             textcolor save link image media preview codesample contextmenu
+#             table code lists fullscreen  insertdatetime  nonbreaking
+#             contextmenu directionality searchreplace wordcount visualblocks
+#             visualchars code fullscreen autolink lists  charmap print  hr
+#             anchor pagebreak
+#             ''',
+#     'toolbar1': '''
+#             fullscreen preview bold italic underline | fontselect,
+#             fontsizeselect  | forecolor backcolor | alignleft alignright |
+#             aligncenter alignjustify | indent outdent | bullist numlist table |
+#             | link image media | codesample |
+#             ''',
+#     'toolbar2': '''
+#             visualblocks visualchars |
+#             charmap hr pagebreak nonbreaking anchor |  code |
+#             ''',
+#     'contextmenu': 'formats | link image',
+#     'menubar': True,
+#     'statusbar': True,
+# }
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -290,3 +294,102 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 # django-allauth 结束 ######################################################
+
+
+# ckeditor 开始 ######################################################
+# CKEDITOR_BASEPATH = "/my_static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = 'ckeditor/'
+CUSTOM_TOOLBAR = [
+    {
+        "name": "document",
+        "items": [
+            "Styles",
+            "Format",
+            "Bold",
+            "Italic",
+            "Underline",
+            "Strike",
+            "-",
+            "TextColor",
+            "BGColor",
+            "-",
+            "JustifyLeft",
+            "JustifyCenter",
+            "JustifyRight",
+            "JustifyBlock",
+        ],
+    },
+    {
+        "name": "widgets",
+        "items": [
+            "codesnippet",
+            "Undo",
+            "Redo",
+            "-",
+            "NumberedList",
+            "BulletedList",
+            "-",
+            "Outdent",
+            "Indent",
+            "-",
+            "Link",
+            "Unlink",
+            "-",
+            "Image",
+            "CodeSnippet",
+            "Table",
+            "HorizontalRule",
+            "Smiley",
+            "SpecialChar",
+            "-",
+            "Blockquote",
+            "-",
+            "ShowBlocks",
+            "Maximize",
+        ],
+    },
+]
+from ckeditor.configs import DEFAULT_CONFIG
+
+CKEDITOR_CONFIGS = {
+    # "default": DEFAULT_CONFIG,
+    "content-custom-toolbar": {
+        "width": "100%",
+        "height": "500px",
+        "skin": "moono-lisa",
+        "toolbar": CUSTOM_TOOLBAR,
+        "toolbarGroups": None,
+        "extraPlugins": ",".join(["image2", "codesnippet"]),
+        "removePlugins": ",".join(["image"]),
+        "codeSnippet_theme": "xcode",
+    },
+    "comment-custom-toolbar": {
+        "width": "100%",
+        "height": "100px",
+        "skin": "moono-lisa",
+        "toolbar": [
+            {
+                "name": "document",
+                "items": [
+                    "Styles",
+                    "Format"],
+            },
+            {
+                "name": "widgets",
+                "items": [
+                    "Smiley",
+                    "CodeSnippet",
+                    "Maximize",
+                ],
+            }
+        ],
+        "toolbarGroups": None,
+        "extraPlugins": "codesnippet",
+        # "removePlugins": ",".join(["image"]),
+        "codeSnippet_theme": "xcode",
+    },
+}
+# ckeditor 结束 ######################################################
+
+# 每页评论的数量
+COMMENT_PAGE_SIZE = 3

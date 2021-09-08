@@ -1,7 +1,14 @@
-<button id="star" type="submit" class="btn" style="margin-top: -4px">
+<button id="star" type="submit" class="btn text-black-50" style="margin-top: -4px"
+        {% if not user.is_authenticated %}
+        onclick="return false"
+        data-toggle="tooltip" title="收藏需要登录"
+        {% endif %}
+>
     {% if is_favor %}
-        <i class="bi-star-fill" style="color: orange"></i>
+        <i class="bi-star-fill" style="color: orange"></i>&nbsp已收藏
     {% else %}
-        <i class="bi-star"></i>
+        <i class="bi-star"></i>&nbsp收藏
     {% endif %}
 </button>
+
+

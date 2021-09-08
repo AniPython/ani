@@ -4,9 +4,16 @@
 {% load bootstrap4 %}
 
 {% block head %}
-    <link href="{% static "tinymce/css/prism.css" %}" rel="stylesheet">
-    {{ form.media }}
+{#    <link href="{% static "tinymce/css/prism.css" %}" rel="stylesheet">#}
+
+    <style>
+        #id_tag {
+            width: 160px !important;
+            height: 200px !important;
+        }
+    </style>
 {% endblock %}
+
 
 {% block title %}
     更新文章
@@ -17,6 +24,7 @@
 
     <div class="container my-5">
         <form method="post">{% csrf_token %}
+            {{ form.media }}
             {% bootstrap_form form %}
             <input class="btn btn-primary" type="submit" value="Update">
         </form>
@@ -24,6 +32,3 @@
 
 {% endblock %}
 
-{% block script_code %}
-
-{% endblock %}

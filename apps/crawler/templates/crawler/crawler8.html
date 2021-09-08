@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from .models import LearningResources
 from django.forms.models import model_to_dict
 
-# url: &lthost&gt/crawler/8/api
+# url: https://anipython.com/crawler/8/api/
 @csrf_exempt
 def crawler8_api(request):
     rows = []
@@ -44,7 +44,7 @@ def crawler8_api(request):
         },
         beforeMount() {
             let that = this
-            $.get("http://http://anipython.com/crawler/8/api", function(data, status) {
+            $.get("https://anipython.com/crawler/8/api/", function(data, status) {
                 if (status === 'success') {
                     that.data_list = data.data
                 }

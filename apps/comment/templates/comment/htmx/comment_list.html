@@ -1,0 +1,16 @@
+{% load filters %}
+
+<div class="comment_group">
+    {% for comment in comment_list %}
+        <div class="comment-item mb-4">
+            <div style="margin-bottom: -8px">
+                <span class="fw-bolder text-primary">{{ comment.author.username }}</span>
+                <span class="text-secondary mx-2">{{ comment.create_time|time_since }}</span>
+            </div>
+            <p class="">{{ comment.content|safe }}</p>
+        </div>
+        <hr>
+    {% endfor %}
+</div>
+
+

@@ -33,3 +33,6 @@ xlrd==2.0.1
 
 PyMySQL~=1.0.2
 lxml~=4.6.3
+django-ckeditor~=6.1.0
+Scrapy~=2.5.0
+selenium~=3.141.0

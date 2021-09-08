@@ -2,13 +2,19 @@
 {% load static %}
 {% load filters %}
 {% load django_htmx %}
-{% django_htmx_script %}
+{#{% django_htmx_script %}#}
+{% load bootstrap4 %}
 
 
 
 {% block head %}
-    <link href="{% static "tinymce/css/prism.css" %}" rel="stylesheet">
+    {#    <link href="{% static "tinymce/css/prism.css" %}" rel="stylesheet">#}
+    {#    <script>window.CKEDITOR_BASEPATH = '/static/ckeditor/ckeditor/';</script>#}
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/styles/default.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
 {% endblock %}
+
 
 {% block title %}
 
@@ -17,117 +23,131 @@
 
 {% block content %}
 
-    <div class="container mt-5">
+    <div class="container mt-4">
 
         {# 显示文章 #}
-        <div class="row">
-            <div class="col">
-                {# 标题 #}
-                <div>
+        <div class="row border rounded-lg">
+            <div class="col mx-2 pt-3">
+                {# head #}
+                <div class="article-head">
+                    {# 标题 #}
                     <h1 class="my-3 d-inline">{{ article.title }}</h1>
                     {% if article.author == user %}
                         <a href="{% url 'snippet:change' article.pk %}">
-                            <i class="bi-pencil h5 mx-2"></i>
+                            <i class="fas fa-edit ml-2 text-secondary"></i>
                         </a>
                     {% endif %}
+
+                    {# 其他 #}
+                    <div class="other-container my-1 text-black-50">
+                    <span>
+                        <i class="fas fa-user"></i>
+                        {{ article.author.username }}
+                    </span>
+                        <span class="ml-2">
+                        <i class="fas fa-clock"></i>
+                        {{ article.create_time | time_since }}
+                    </span>
+
+                        {# 收藏 #}
+                        <form hx-post="{% url 'favor:toggle_favor' %}"
+                              hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                              hx-swap="outerHTML"
+                              hx-target="#star"
+                              class="d-inline">
+                            {{ favor_form }}
+                            {% include 'snippet/htmx/star_form.html' %}
+                        </form>
+                    </div>
+
+                    {# 标签 #}
+                    <div class="tag-container">
+                        {% for tag in article.tag.all %}
+                            <span class="badge badge-info p-2" style="font-size: 1em">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
                 </div>
-
-                <div class="tag-container">
-                    {% for tag in article.tag.all %}
-                        <span class="badge bg-info fs-5">{{ tag.name }}</span>
-                    {% endfor %}
-                </div>
-                <div class="other-container my-2 text-black-50">
-                    <span>{{ article.author.username }}</span>
-                    <span class="ms-2">{{ article.create_time | time_since }}</span>
-                    {# 收藏 #}
-                    <script src="https://unpkg.com/htmx.org@1.5.0"></script>
-
-                    <form hx-post="{% url 'favor:toggle_favor' %}"
-                          hx-swap="outerHTML"
-                          hx-target="#star"
-                          class="d-inline">
-                        <input type="hidden" name="object_id" value="{{ object_id }}">
-                        <input type="hidden" name="content_type_id" value="{{ content_type_id }}">
-                        <input type="hidden" name="is_favor" value="{{ is_favor }}">
-                        {% include 'snippet/htmx/star_form.html' %}
-                    </form>
-
-
-                </div>
+                <hr>
                 {# 正文 #}
                 <div class="content-container my-4">
-                    {{ article.content | safe }}
+                    {{ article.content|safe }}
                 </div>
             </div>
         </div>
 
         {# 发表评论 #}
-        <div class="row">
-            <div class="h6">评论</div>
-            {% if request.user.is_authenticated %}
-                <div class="form-container position-relative" style="max-width: 600px">
+        <div class="row border rounded-lg mt-4">
+            <div class="col pt-4 px-4 pb-2">
+                {% if request.user.is_authenticated %}
                     <form action="{% url 'comment:create' %}" method="post">
                         {% csrf_token %}
-                        <input type="hidden" name="object_id" value="{{ article.id }}">
-                        <input type="hidden" name="content_type_id" value="{{ content_type_id }}">
-                        <textarea class="form-control" type="text" name="content"
-                                  required rows="3" placeholder="说点什么吧~"
-                        ></textarea>
-                        <button class="btn btn-sm btn-outline-primary position-absolute" type="submit"
-                                style="bottom: 30px; right: 26px"
-                        >评论
+                        {{ create_comment_form.media }}
+                        {% bootstrap_form create_comment_form %}
+                        <button class="btn btn-outline-primary" type="submit">
+                            评论
                         </button>
                     </form>
-                </div>
-            {% else %}
-                <div class="">
-                    先 <a class="text-decoration-none"
-                         href="{% url 'aniuser:login' %}?next=/snippet/article/{{ article.pk }}">登录</a> 再发表评论
-                </div>
-            {% endif %}
+
+                {% else %}
+                    <div class="pb-3">
+                        先 <a class="text-decoration-none"
+                             href="{% url 'account_login' %}?next=/snippet/article/{{ article.pk }}">登录</a> 再发表评论
+                    </div>
+                {% endif %}
+            </div>
         </div>
 
-        {# 显示评论 #}
-        <div class="row">
-            <div id="comments" class="comments" style="max-width: 600px">
-                {% for comment in page_obj %}
-                    <div class="my-3">
-                        <div class="fw-bolder">{{ comment.author.username }}</div>
-                        <div class="fw-normal">{{ comment.content }}</div>
-                        <div class="text-secondary">{{ comment.create_time|time_since }}</div>
-                    </div>
-                {% endfor %}
+        {# htmx 方式显示评论 #}
+        <div class="row border rounded-lg mt-4">
+            <div class="col pt-4 px-4 pb-2">
+                <h4>评论列表</h4>
+                <hr>
+                {% include 'comment/htmx/comment_list.html' %}
+                <form hx-get="."
+                      hx-swap="beforeend"
+                      hx-target=".comment_group">
+                    <input type="hidden" id="page" name="page" value="1">
+                    <input type="hidden" id="all_count" value="{{ all_count }}">
+                    <button id="add-btn" class="btn btn-outline-primary"
+                            type="submit" onclick="add()">加载更多评论
+                    </button>
+                </form>
+
+                <script>
+                    function add() {
+                        // 页码加1
+                        let input = $('#page')
+                        input.val(parseInt(input.val()) + 1)
+
+                        // 没有更多的话
+                        if ($('#page').val() >= $('#all_count').val()) {
+                            $('#add-btn').attr("disabled", true);
+                            $('#add-btn').text('没有更多评论了')
+                        }
+                    }
+                </script>
+
+
             </div>
-            {# 翻页 #}
-            {% if comment_list %}
-                {% include 'includes/pagination.html' %}
-            {% endif %}
         </div>
+
     </div>
 
-    <script src="{% static "tinymce/js/prism.js" %}"></script>
+
 
 
 {% endblock %}
 
 {% block script_code %}
 
-    {#    <script src="/static/js/jquery.min.js"></script>#}
-    {#    <script>#}
-    {#        $(function () {#}
-    {#            let href = window.location.href#}
-    {#            console.log(href)#}
-    {#            // 高亮页码#}
-    {#            let current_page = "page=1"#}
-    {#            if (href.includes('?page=')) {#}
-    {#                current_page = href.match(/page=\d+/)[0]#}
-    {#            }#}
-    {#            $('li').removeClass('active')#}
-    {#            current_page = '?' + current_page#}
-    {#            $(`[href*='${current_page}']`).parent().addClass('active')#}
-    {##}
-    {#        })#}
-    {#    </script>#}
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+
+            $('div[class="form-group"]>label').addClass('h4')
+        })
+
+    </script>
 
 {% endblock %}
