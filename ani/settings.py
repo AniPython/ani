@@ -306,6 +306,8 @@ CUSTOM_TOOLBAR = [
         "items": [
             "Styles",
             "Format",
+            'Font',
+            'FontSize',
             "Bold",
             "Italic",
             "Underline",
@@ -367,19 +369,27 @@ CKEDITOR_CONFIGS = {
     "comment-custom-toolbar": {
         "width": "100%",
         "height": "100px",
+        "fontSize_defaultLabel": "16px",
         "skin": "moono-lisa",
         "toolbar": [
             {
                 "name": "document",
                 "items": [
-                    "Styles",
-                    "Format"],
+
+                ],
             },
             {
                 "name": "widgets",
                 "items": [
-                    "Smiley",
+                    "Styles",
+                    "Format",
+                    'Font',
+                    'FontSize',
+                    "TextColor",
+                    "BGColor",
                     "CodeSnippet",
+                    "Smiley",
+                    "ShowBlocks",
                     "Maximize",
                 ],
             }
