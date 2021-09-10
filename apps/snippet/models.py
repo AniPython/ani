@@ -5,7 +5,6 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from mdeditor.fields import MDTextField
 from shortuuidfield import ShortUUIDField
 
 # User = get_user_model()
