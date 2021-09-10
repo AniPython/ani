@@ -15,23 +15,26 @@
         {% block title %}{% endblock %}
     </title>
 
-    {#    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">#}
-    {#    <link rel="stylesheet" href="/static/css/bootstrap.css">#}
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     {#        <link rel="stylesheet" href="/static/css/bootstrap-icons.css">#}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <!-- CSS only -->
     <link rel="stylesheet" href="/static/css/docs.css">
     <!-- Prism CSS -->
-    {#    <link href="{% static "tinymce/css/prism.css" %}" rel="stylesheet">#}
 
     <!-- font-awesome CSS -->
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    {#    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">#}
+    {#    <link href="/static/css/font-awesome-5.15.3/all.min.css" rel="stylesheet">#}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
 
     <script src="/static/js/htmx.min.js"></script>
 
     <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
     <script type="text/javascript" src=" {% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/styles/default.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
 
     <style>
         .crawler-content {
@@ -61,6 +64,7 @@
         #comments p {
             margin-bottom: 0px;
         }
+
 
 
     </style>
@@ -101,9 +105,11 @@
 <script>
 
     $(function () {
-        $('.nav_link').removeClass("active")
-        let element_id = window.location.pathname.split("/")[1]
-        $('#' + element_id).addClass("active")
+        // nav 高亮
+        {#$('.nav_link').removeClass("active")#}
+        {#let element_id = window.location.pathname.split("/")[1]#}
+        {#$('#' + element_id).addClass("active")#}
+
 
         // 高亮页码
         //let href = window.location.href

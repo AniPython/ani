@@ -1,14 +1,15 @@
 import re
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import UpdateView, DeleteView
 
 from .forms import CreateCommentForm
 from .models import Comment
-from ..snippet.models import Article
 
 
 @login_required
@@ -20,6 +21,20 @@ def create_comment_view(request):
             return redirect(f'/snippet/article/{comment.object_id}')
         else:
             return HttpResponse(str(form.errors))
+
+
+class CommentUpdateView(LoginRequiredMixin, UpdateView):
+    model = Comment
+    template_name_suffix = '_update_form'  # 自动找 article_update_form.html
+    form_class = CreateCommentForm
+
+
+class CommentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Comment
+    template_name_suffix = '_delete_form'
+
+    def get_success_url(self):
+        return self.object.get_father().get_absolute_url()
 
 
 

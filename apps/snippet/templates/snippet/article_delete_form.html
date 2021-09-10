@@ -1,0 +1,23 @@
+{% extends 'anibase.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <form method="post">{% csrf_token %}
+                    <h3>确定删除文章?</h3>
+                    <div>{{ object.title }}</div>
+                        <input class="btn btn-outline-danger" type="submit" value="确认">
+                        <a class="btn btn-outline-primary ml-3"
+                                onclick="window.history.back()">取消
+                        </a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,21 +1,78 @@
 {% extends 'anibase.html' %}
 
-{% block head %}
-    <style>
-
-    </style>
-{% endblock %}
-
 {% block title %}
     主页
 {% endblock %}
 
-{% block content %}
 
-    <div class="container-fluid">
-        主页
-    </div>
+{% block head %}
+    <style>
+        body {
+            background: url("/static/img/index1-1920.jpg") no-repeat center;
+        }
+
+        #typed-box {
+            width: 500px;
+            height: 120px;
+            background: #2b2b2b99;
+            text-align: center;
+            border-radius: 6px;
+        }
+
+        .typed-cursor {
+            font-size: 24px;
+            color: #a9b7c6;
+            line-height: 120px;
+        }
+
+        #typed {
+            opacity: 1 !important;
+            line-height: 120px;
+            font-size: 24px;
+            font-family: Hack, "YaHei Consolas Hybrid", monospace;
+            color: #a9b7c6;
+        }
+
+        #navbar a {
+            color: rgba(240, 244, 235, 0.9) !important;
+         }
+    </style>
 
 {% endblock %}
 
+{% block content %}
+    <div class="container">
+        <div class="row w-100 justify-content-center align-items-center mx-0" style="height: 70vh">
+            <div id="typed-box" class="">
+                <span class="my-auto" id="typed"></span>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
+{% block script_code %}
+
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script>
+        var typed = new Typed('#typed', {
+            strings: [
+                '<span style="color: #d06b18">print</span>' +
+                '(' +
+                '<span style="color: #7d996e">"Hello World"</span>' +
+                ')',
+
+                '<span style="color: #bc76AA">console</span>' +
+                '.' +
+                '<span style="color: #e1c66d">log</span>' +
+                '(' +
+                '<span style="color: #7d996e">"Hello World"</span>' +
+                ')'
+            ],
+            typeSpeed: 100,
+            backSpeed: 40,
+            loop: true,
+            backDelay: 1500,
+            startDelay: 500,
+        });
+    </script>
+{% endblock %}

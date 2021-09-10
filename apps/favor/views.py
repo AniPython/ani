@@ -5,6 +5,7 @@ from ratelimit.decorators import ratelimit
 
 from .forms import FavorForm
 from .models import Favor
+from ..snippet.models import Article
 
 
 @ratelimit(key='ip', rate='1/s', block=True)
@@ -35,7 +36,10 @@ def favor_view(request):
 
             return render(request,
                           'snippet/htmx/star_form.html',
-                          context={"is_favor": is_favor})
+                          context={
+                              "is_favor": is_favor,
+                              "article": Article.objects.get(id=object_id)
+                          })
         else:
             return HttpResponse(str(form.errors) + '字段出错了')
 

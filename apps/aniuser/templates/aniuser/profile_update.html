@@ -1,0 +1,17 @@
+{% extends 'aniuser/profile_base.html' %}
+{% load bootstrap4 %}
+
+
+{% block profile-right %}
+    <h3>编辑资料</h3>
+    <hr>
+    <form method="post">{% csrf_token %}
+            {{ form.media }}
+            {% bootstrap_form form %}
+            <input class="btn btn-outline-primary" type="submit" value="更新">
+        </form>
+{% endblock %}
+
+
+
+

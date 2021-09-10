@@ -1,0 +1,14 @@
+{% extends 'aniuser/profile_base.html' %}
+
+{% block profile-right %}
+    <h3>我的文章</h3>
+    <hr>
+    {% for article in object_list %}
+        <a class="text-decoration-none" href="{% url 'snippet:detail' article.id %}">
+            <p style="font-size: 1.2em">{{ article.title }}</p>
+        </a>
+    {% endfor %}
+
+{% endblock %}
+
+

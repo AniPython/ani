@@ -25,7 +25,7 @@ import allauth.account.urls
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', context={'index': True})
 
 
 def video(request):
@@ -36,10 +36,11 @@ urlpatterns = [
     path('', index, name='index'),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    path('accounts/', include('apps.aniuser.urls', namespace='ani')),
     # path('tinymce/', include('tinymce.urls')),
     # path('mdeditor/', include('mdeditor.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('crawler/', include('apps.crawler.urls')),
+    path('crawler/', include('apps.crawler.urls', namespace='crawler')),
     path('user/', include('apps.aniuser.urls')),
     path('video/', video, name='video'),
     path('snippet/', include('apps.snippet.urls')),

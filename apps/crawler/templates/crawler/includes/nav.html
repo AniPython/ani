@@ -1,28 +1,65 @@
-
 <div class="container-fluid my-3" id="nav">
-    <a id="1"
-       class="btn btn-outline-secondary crawler-nav mb-2 me-2"
+    <a class="btn crawler-nav mb-2 me-2
+        {% if crawler_is_active == '1' %}
+            btn-primary text-white
+        {% else %}
+            btn-outline-secondary
+        {% endif %}"
        href="{% url 'crawler:crawler1' %}">1: Hello world</a>
-    <a id="2"
-       class="btn btn-outline-secondary crawler-nav mb-2 me-2"
+    <a class="btn btn-outline-secondary crawler-nav mb-2 me-2
+       {% if crawler_is_active == '2' %}
+            btn-primary text-white
+       {% else %}
+       btn-outline-secondary
+       {% endif %}"
        href="{% url 'crawler:crawler2' %}">2: 静夜思</a>
-    <a id="3"
-       class="btn btn-outline-secondary crawler-nav mb-2 me-2"
+    <a class="btn btn-outline-secondary crawler-nav mb-2 me-2
+{% if crawler_is_active == '3' %}
+            btn-primary text-white
+       {% else %}
+       btn-outline-secondary
+       {% endif %}
+"
        href="{% url 'crawler:crawler3' %}">3: 王维诗三首</a>
-    <a id="4"
-       class="btn btn-outline-secondary crawler-nav mb-2 me-2"
+    <a class="btn btn-outline-secondary crawler-nav mb-2 me-2
+{% if crawler_is_active == '4' %}
+            btn-primary text-white
+       {% else %}
+       btn-outline-secondary
+       {% endif %}
+"
        href="{% url 'crawler:crawler4_list' %}">4: 每页的内层内容</a>
-    <a id="5"
-       class="btn btn-outline-secondary crawler-nav mb-2 me-2"
+    <a class="btn btn-outline-secondary crawler-nav mb-2 me-2
+{% if crawler_is_active == '5' %}
+            btn-primary text-white
+       {% else %}
+       btn-outline-secondary
+       {% endif %}
+"
        href="{% url 'crawler:crawler5' %}">5: 下载图片</a>
-    <a id="6"
-       class="btn btn-outline-secondary crawler-nav mb-2 me-2"
+    <a class="btn btn-outline-secondary crawler-nav mb-2 me-2
+{% if crawler_is_active == '6' %}
+            btn-primary text-white
+       {% else %}
+       btn-outline-secondary
+       {% endif %}
+"
        href="{% url 'crawler:crawler6' %}">6: 下载文件</a>
-    <a id="7"
-       class="btn btn-outline-secondary crawler-nav mb-2 me-2"
+    <a class="btn btn-outline-secondary crawler-nav mb-2 me-2
+{% if crawler_is_active == '7' %}
+            btn-primary text-white
+       {% else %}
+       btn-outline-secondary
+       {% endif %}
+"
        href="{% url 'crawler:crawler7' %}">7: 模拟登录</a>
-    <a id="8"
-       class="btn btn-outline-secondary crawler-nav mb-2 me-2"
+    <a class="btn btn-outline-secondary crawler-nav mb-2 me-2
+{% if crawler_is_active == '8' %}
+            btn-primary text-white
+       {% else %}
+       btn-outline-secondary
+       {% endif %}
+"
        href="{% url 'crawler:crawler8' %}">8: Ajax 请求数据(动态页面)</a>
 </div>
 
@@ -31,12 +68,12 @@
 <script src="/static/js/jquery.min.js"></script>
 <script>
 
-    $(function() {
-        if (window.location.pathname.split("/").length > 3) {
-
-            $('.crawler-nav').removeClass("btn-primary").addClass("btn-outline-secondary")
-            let element_id = window.location.pathname.split("/")[2]
-            $('#' + element_id).removeClass("btn-outline-secondary").addClass("btn-primary")
-        }
-     })
+    {#$(function() {#}
+    {#    if (window.location.pathname.split("/").length > 3) {#}
+    {##}
+    {#        $('.crawler-nav').removeClass("btn-primary").addClass("btn-outline-secondary")#}
+    {#        let element_id = window.location.pathname.split("/")[2]#}
+    {#        $('#' + element_id).removeClass("btn-outline-secondary").addClass("btn-primary")#}
+    {#    }#}
+    {# })#}
 </script>

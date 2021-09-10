@@ -6,10 +6,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponse, QueryDict
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from .forms import ArticleForm
 from .models import *
@@ -43,6 +43,7 @@ class ArticleListView(ListView):
         # context['elided_page_range'] = context['paginator'].get_elided_page_range(context['page_obj'].number)
 
         context['all_tags'] = Tag.objects.all()
+        context['all_article_amount'] = Article.objects.all().count()
         return context
 
 
@@ -138,3 +139,12 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
     template_name_suffix = '_update_form'  # 自动找 article_update_form.html
     form_class = ArticleForm
+
+
+class ArticleDeleteView(LoginRequiredMixin, DeleteView):
+    model = Article
+    template_name_suffix = '_delete_form'
+
+    def get_success_url(self):
+        return reverse('snippet:list')
+

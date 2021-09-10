@@ -4,7 +4,10 @@ from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.shortcuts import get_object_or_404
 from shortuuidfield import ShortUUIDField
+
+# from apps.snippet.models import Article
 
 
 class Comment(models.Model):
@@ -30,4 +33,13 @@ class Comment(models.Model):
     #     self.content = re.sub(r'\s*<p>(\s*&nbsp;\s*)*</p>\s*', '', self.content, flags=re.S)
     #     super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        # father_model_class = self.content_type.model_class()
+        # father = get_object_or_404(father_model_class, pk=self.object_id)
+        return self.get_father().get_absolute_url()
+
+    def get_father(self):
+        father_model_class = self.content_type.model_class()
+        father = father_model_class.objects.get(pk=self.object_id)
+        return father
 

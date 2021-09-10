@@ -6,6 +6,12 @@
             <div style="margin-bottom: -8px">
                 <span class="fw-bolder text-primary">{{ comment.author.username }}</span>
                 <span class="text-secondary mx-2">{{ comment.create_time|time_since }}</span>
+                {% if comment.author == user %}
+                    <a href="{% url 'comment:change' comment.pk %}">
+                         <i class="fas fa-edit ml-2 text-secondary"></i>
+{#                        <img src="/static/svg/edit.svg" alt="" width="16">#}
+                    </a>
+                {% endif %}
             </div>
             <p class="">{{ comment.content|safe }}</p>
         </div>

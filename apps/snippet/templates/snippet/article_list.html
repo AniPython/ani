@@ -9,6 +9,12 @@
 
 {% block head %}
 
+    <style>
+        .list-group a.ac {
+            border-left: 4px solid rgba(23, 162, 184, 0.65);
+        }
+    </style>
+
 {% endblock %}
 
 {% block title %}
@@ -18,41 +24,69 @@
 
 {% block content %}
 
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="tag-container my-3">
-                    <a id="all"
-                       class="tags btn btn-outline-secondary mb-2 me-2 px-3"
-                       href="?page=1">all</a>
+    <div class="container" style="margin-bottom: 60px">
+
+        <div class="row mt-4">
+
+            {# 标签列 #}
+            <div class="col-md-3 mb-4">
+                <div class="list-group">
+                    <a id="all" class=" text-primary text-decoration-none list-group-item list-group-item-action
+{% if snippet_tag_is_active == 'all' %}
+ac
+{% endif %}
+"
+                       href="?page=1">
+                        all
+                        <span style="opacity: 0.76"
+                              class="float-right badge badge-secondary badge-pill">{{ all_article_amount }}</span>
+                    </a>
                     {% for tag in all_tags %}
                         <a id="{{ tag.name }}"
-                           class="tags btn btn-outline-secondary text-decoration-none mb-2 me-2 px-3"
-                           href="?page=1&tag={{ tag.name }}">{{ tag.name }}</a>
+                           class="text-primary text-decoration-none list-group-item list-group-item-action
+{% if snippet_tag_is_active == tag.name %}
+ac
+{% endif %}
+"
+                           href="?page=1&tag={{ tag.name }}">
+                            {{ tag.name }}
+                            <span style="opacity: 0.76"
+                                  class="float-right badge badge-secondary badge-pill">{{ tag.get_article_amount }}</span>
+                        </a>
                     {% endfor %}
                 </div>
+            </div>
 
-                <div class="article-list">
+            {# 文章列表页 #}
+            <div class="col-md-9">
+                <ul class="list-group mb-4">
                     {% for article in page_obj %}
-                        <div class="article-container my-4">
-                            <div class="h2">
+                        <li class="list-group-item">
+                            <div class="h3">
                                 <a class="text-decoration-none text-dark"
                                    href="{% url 'snippet:detail' article.id %}">{{ article.title }}</a>
                             </div>
 
-                            <div class="tag-container">
+                            <div class="tag-container" style="font-size: 1em">
                                 {% for tag in article.tag.all %}
-                                    <span class="badge badge-info" style="font-size: large">{{ tag.name }}</span>
+                                    <span style="font-size: 1em;"
+                                          class="badge badge-pill badge-info">{{ tag.name }}</span>
                                 {% endfor %}
                             </div>
 
                             <div class="other-container my-2 text-black-50">
-                                <span class="">{{ article.author.username }}</span>
-                                <span class="ms-2">{{ article.create_time | time_since }}</span>
+                                <i class="fas fa-user-circle"></i>
+                                <span class="mr-2">{{ article.author.username }}</span>
+                                <i class="fas fa-clock"></i>
+                                <span class="mr-2">{{ article.create_time | time_since }}</span>
+                                <i class="fas fa-comment-alt"></i>
+                                <span class="mr-2">{{ article.get_comment_amount }}</span>
+                                <i class="fas fa-star"></i>
+                                <span class="mr-2">{{ article.get_favor_amount }}</span>
                             </div>
-                        </div>
+                        </li>
                     {% endfor %}
-                </div>
+                </ul>
 
                 {# 分页 #}
                 {% if article_list %}
@@ -60,26 +94,30 @@
                 {% endif %}
 
             </div>
+
+
         </div>
     </div>
+
+
 
 {% endblock %}
 
 {% block script_code %}
-    <script>
-        $(function () {
-            let href = window.location.href
-
-            // 高亮标签
-            {#let current_tag = "tag="#}
-            let element_id = "all"
-
-            if (href.match(/tag=\w+/)) {
-                element_id = href.match(/tag=(\w+)/)[1]
-            }
-            $('.tags').removeClass("btn-primary").addClass("btn-outline-secondary")
-            $('#' + element_id).removeClass("btn-outline-secondary").addClass("btn-primary")
-
-        })
-    </script>
+    {#    <script>#}
+    {#        $(function () {#}
+    {#            let href = window.location.href#}
+    {##}
+    {#            // 高亮标签#}
+    {#let current_tag = "tag="#}
+    {#            let element_id = "all"#}
+    {##}
+    {#            if (href.match(/tag=\w+/)) {#}
+    {#                element_id = href.match(/tag=(\w+)/)[1]#}
+    {#            }#}
+    {#            $('.tags').removeClass("btn-primary").addClass("btn-outline-secondary")#}
+    {#            $('#' + element_id).removeClass("btn-outline-secondary").addClass("btn-primary")#}
+    {##}
+    {#        })#}
+    {#    </script>#}
 {% endblock %}

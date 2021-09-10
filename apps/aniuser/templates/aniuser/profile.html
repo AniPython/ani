@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Profile</title>
-</head>
-<body>
+{% extends 'aniuser/profile_base.html' %}
 
-<div class="container">
-    <h2>个人中心</h2>
-    <p>你的用户名是:&nbsp<strong>{{ user.username }}</strong></p>
-</div>
+{% block profile-right %}
+    <h3><span class="text-info">{{ user.username }}</span>&nbsp;的个人中心</h3>
+    <hr>
+    <p>用户名:&nbsp<strong>{{ user.username }}</strong></p>
+    <p>电话:&nbsp<strong>{{ user.phone }}</strong></p>
+    <p>电子邮件:&nbsp<strong>{{ user.email }}</strong></p>
+{% endblock %}
 
-</body>
-</html>
+
+
