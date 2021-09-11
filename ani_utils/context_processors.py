@@ -13,6 +13,9 @@ def get_is_active(request):
 
     # 代码片段页标签高亮
     if request.path == '/snippet/article/':
-        context['snippet_tag_is_active'] = request.GET.get('tag', 'all')
+        tag = request.GET.get('tag')
+        if not tag:
+            tag = 'all'
+        context['snippet_tag_is_active'] = tag
 
     return context

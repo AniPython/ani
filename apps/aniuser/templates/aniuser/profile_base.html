@@ -7,6 +7,7 @@
 
 {% block content %}
     <div class="container-fluid">
+
         <div class="row mt-4">
             <div class="col col-md-2 offset-md-1 col-sm-12">
                 <div class="list-group">
@@ -25,6 +26,10 @@
 
                     <a class="text-primary text-decoration-none list-group-item list-group-item-action" href="{% url 'aniuser:profile_update' user.id %}">
                         编辑资料
+                    </a>
+
+                    <a class="text-primary text-decoration-none list-group-item list-group-item-action" href="{% url 'account_email' %}">
+                        修改邮箱地址
                     </a>
 
                 </div>

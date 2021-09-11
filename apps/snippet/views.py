@@ -22,28 +22,50 @@ from django.conf import settings
 
 class ArticleListView(ListView):
     # model = Article
-    paginate_by = 10
+    paginate_by = 8
     template_name = 'snippet/article_list.html'
 
     def get_queryset(self):
+        article_queryset = Article.objects.all()
+        # 搜索过滤
+        q = self.request.GET.get('q', '')
+        if q is not None:
+            lookups = Q(title__icontains=q) | Q(content__icontains=q)
+            article_queryset = Article.objects.filter(lookups)
+
+        # 标签过滤
         tag = self.request.GET.get('tag', '')
         if tag:
-            return Article.objects.filter(tag__name__contains=tag).select_related('author').prefetch_related('tag')
+            article_queryset = article_queryset.filter(tag__name__contains=tag).select_related('author').prefetch_related('tag')
         else:
-            return Article.objects.all().select_related('author').prefetch_related('tag')
+            article_queryset = article_queryset.all().select_related('author').prefetch_related('tag')
+
+        return article_queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # 翻页保留其它的 query string
-        # url_query_str = self.request.GET.urlencode()  # page=1&tag=flask
-        # context['url_query'] = re.sub(r'page=\d*', '', url_query_str)  # &tag=flask
+        context['all_article_amount'] = self.get_queryset().count()
 
-        # 获取带省略号的中间页码
-        # context['elided_page_range'] = context['paginator'].get_elided_page_range(context['page_obj'].number)
+        all_tags = Tag.objects.filter(article__in=self.get_queryset()).distinct()
+        all_tags_name_list = [i.name for i in all_tags]
+        tag_number_list = []
+        for tag in all_tags:
+            tag_number_list.append(self.get_queryset().filter(tag__name__contains=tag.name).count())
+        context['tag_name_number'] = zip(all_tags_name_list, tag_number_list)
 
-        context['all_tags'] = Tag.objects.all()
-        context['all_article_amount'] = Article.objects.all().count()
+        q = self.request.GET.get('q', '')
+        if q:
+            context['q'] = q
+
+        page = self.request.GET.get('page', '')
+        if q:
+            context['page'] = page
+
+        tag = self.request.GET.get('tag', '')
+        if tag:
+            context['tag'] = tag
+
         return context
 
 
@@ -123,18 +145,6 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         return {'author': self.request.user}
 
 
-def snippet_search_view(request):
-    query = request.GET.get('q')
-    qs = Article.objects.all()
-    if query is not None:
-        lookups = Q(title_icontains=query) | Q(content__icontains=query)
-        qs = Article.objects.filter(lookups)
-    context = {
-        "object_list": qs
-    }
-    return render(request, "snippet/article_search.html", context=context)
-
-
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
     template_name_suffix = '_update_form'  # 自动找 article_update_form.html
@@ -148,3 +158,14 @@ class ArticleDeleteView(LoginRequiredMixin, DeleteView):
     def get_success_url(self):
         return reverse('snippet:list')
 
+
+# def snippet_search_view(request):
+#     query = request.GET.get('q')
+#     qs = Article.objects.all()
+#     if query is not None:
+#         lookups = Q(title_icontains=query) | Q(content__icontains=query)
+#         qs = Article.objects.filter(lookups)
+#     context = {
+#         "object_list": qs
+#     }
+#     return render(request, "snippet/article_search.html", context=context)
