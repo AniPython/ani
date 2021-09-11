@@ -287,7 +287,8 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 # allauth 邮箱设定 (qq邮箱)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.qq.com'
-EMAIL_PORT = 25
+# EMAIL_PORT = 25
+EMAIL_PORT = 465
 EMAIL_HOST_USER = '37013823@qq.com'
 EMAIL_FROM = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
