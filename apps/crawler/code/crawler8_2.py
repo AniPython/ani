@@ -4,7 +4,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-url = 'http://anipython.com/crawler/8/'
+url = 'https://anipython.com/crawler/8/'
 
 # 打开 Chrome 浏览器
 driver = webdriver.Chrome()

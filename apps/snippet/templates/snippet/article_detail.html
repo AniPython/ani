@@ -31,7 +31,7 @@
                 {# head #}
                 <div class="article-head">
                     {# 标题 #}
-                    <h1 class="my-3 d-inline">{{ article.title }}</h1>
+                    <h1 class="my-3 d-inline" style="font-size: 2em">{{ article.title }}</h1>
                     {% if article.author == user %}
                         <a href="{% url 'snippet:change' article.pk %}">
                             <img class="ml-2 text-secondary" src="/static/svg/edit.svg" alt="" height="16">
