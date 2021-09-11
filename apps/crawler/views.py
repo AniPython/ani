@@ -2,7 +2,6 @@ from pathlib import Path
 
 from django.conf import settings
 from django.core.serializers import serialize
-from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, FileResponse, JsonResponse
 import re
@@ -12,7 +11,6 @@ from django.views.generic import ListView, DetailView
 
 from .models import LearningResources
 from django.forms.models import model_to_dict
-from django.views.decorators.csrf import csrf_exempt
 
 crawler_code_dir = settings.BASE_DIR / 'apps' / 'crawler' / 'code'
 
@@ -238,7 +236,7 @@ def crawler8(request):
 
 def crawler8_api(request):
     data = serialize('json', LearningResources.objects.all())
-    print(data)
+    # print(data)
 
     rows = []
     for row in LearningResources.objects.all():

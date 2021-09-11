@@ -36,7 +36,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('accounts/', include('apps.aniuser.urls', namespace='ani')),
+    path('myaccounts/', include('apps.aniuser.urls', namespace='ani')),
     # path('tinymce/', include('tinymce.urls')),
     # path('mdeditor/', include('mdeditor.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),

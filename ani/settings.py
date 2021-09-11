@@ -46,8 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',  # 手动加
     'debug_toolbar',
-    # 'tinymce',
-    # 'mdeditor',
     'ckeditor',
     'ckeditor_uploader',
     'apps.aniuser',
