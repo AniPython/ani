@@ -16,9 +16,16 @@ def profile(request):
 
 
 {% block 爬取内容 %}
-    <a href="{% url 'aniuser:profile' %}">个人中心</a><br>
-    获取个人中心里面的内容, 这个页面需要登录才能访问<br>
-    url地址: https://anipython.com/user/profile/
+    获取 <span class="text-danger">个人中心</span> 里面的内容, 这个页面需要登录才能访问<br>
+    登录地址: <a class="text-decoration-none" href="https://anipython.com/accounts/login/">
+                https://anipython.com/accounts/login/
+            </a><br>
+    个人中心地址: <a class="text-decoration-none" href="https://anipython.com/user/profile/">
+                    https://anipython.com/user/profile/
+                </a><br>
+    测试帐号: <span class="text-info">test_user</span><br>
+    帐号密码: <span class="text-info">tu123456789</span><br>
+    (也可以使用自己注册的帐号)
 {% endblock %}
 
 

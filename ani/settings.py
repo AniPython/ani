@@ -13,11 +13,11 @@ import os
 from pathlib import Path
 import socket
 
-is_production = False
-if socket.gethostname() == 'iZwz9945xduhq7zwqzvmmnZ':
-    is_production = True
-else:
-    is_production = False
+# is_production = False
+# if socket.gethostname() == 'iZwz9945xduhq7zwqzvmmnZ':
+#     is_production = True
+# else:
+#     is_production = False
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,8 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = os.environ.get('SECRET_KEY')
-SECRET_KEY = "lfighaiuh875nfgjiadg76ay25892394ey61"
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG') == '1'
 # DEBUG = True
@@ -36,7 +36,6 @@ ALLOWED_HOSTS = ["127.0.0.1", "anipython.com", "www.anipython.com", "39.108.112.
 # ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -107,14 +106,6 @@ WSGI_APPLICATION = 'ani.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -180,43 +171,11 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = BASE_DIR / 'uploads'
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = '/'
-
-# 富文本: django-tinymce4-lite
-# TINYMCE_DEFAULT_CONFIG = {
-#     'height': 360,
-#     # 'width': 1120,
-#     'white-space': 'null',
-#     'cleanup_on_startup': True,
-#     'custom_undo_redo_levels': 20,
-#     'selector': 'textarea',
-#     'theme': 'modern',
-#     'plugins': '''
-#             textcolor save link image media preview codesample contextmenu
-#             table code lists fullscreen  insertdatetime  nonbreaking
-#             contextmenu directionality searchreplace wordcount visualblocks
-#             visualchars code fullscreen autolink lists  charmap print  hr
-#             anchor pagebreak
-#             ''',
-#     'toolbar1': '''
-#             fullscreen preview bold italic underline | fontselect,
-#             fontsizeselect  | forecolor backcolor | alignleft alignright |
-#             aligncenter alignjustify | indent outdent | bullist numlist table |
-#             | link image media | codesample |
-#             ''',
-#     'toolbar2': '''
-#             visualblocks visualchars |
-#             charmap hr pagebreak nonbreaking anchor |  code |
-#             ''',
-#     'contextmenu': 'formats | link image',
-#     'menubar': True,
-#     'statusbar': True,
-# }
+LOGIN_REDIRECT_URL = '/snippet/article/'
 
 INTERNAL_IPS = [
     '127.0.0.1',
     '39.108.112.236',
-    '172.31.93.1'
 ]
 
 # django-allauth 开始 ######################################################
@@ -240,34 +199,10 @@ ACCOUNT_LOGOUT_ON_GET = True
 # 第三方登录设置
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
         'APP': {
             'client_id': '2e2a783e6bc444c720ab',
             'secret': os.environ.get('GITHUB_SECRET'),
             'key': ''
-        }
-    },
-    # 'weixin': {
-    #     'APP': {
-    #         'client_id': '2e2a783e6bc444c720ab',
-    #         'secret': 'a097ab9ff59bc3844c359324363ba82e4c32b742',
-    #         'key': ''
-    #     }
-    # },
-    # 'weibo': {
-    #     'APP': {
-    #         'client_id': '2e2a783e6bc444c720ab',
-    #         'secret': 'a097ab9ff59bc3844c359324363ba82e4c32b742',
-    #         'key': ''
-    #     }
-    # },
-    'baidu': {
-        'APP': {
-            'client_id': 'fOOA1mfhaijN59Y8xNMVfsZL',  # API Key
-            'secret': 'aHXze1Q9fzbpqtiGM5lzoNj8T4Qg6oNI',  # Secret Key
-            # 'key': '24784865'
         }
     },
 }

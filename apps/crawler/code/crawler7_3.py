@@ -1,3 +1,5 @@
+import time
+
 from lxml import etree
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
@@ -13,10 +15,10 @@ profile_url = f"{host}/user/profile/"  # 获取内容
 driver = webdriver.Chrome()
 
 # 访问登录页
-driver.get(login_url)
+driver.get("https://anipython.com/accounts/login/")
 
 # 输入用户名
-username_input = driver.find_element_by_name('username')
+username_input = driver.find_element_by_name('login')
 username_input.clear()
 username_input.send_keys('test_user')
 
@@ -37,15 +39,15 @@ wait = WebDriverWait(driver, 60)
 wait.until(EC.presence_of_all_elements_located((By.LINK_TEXT, '退出')))
 
 # 访问个人中心
-driver.get(profile_url)
+driver.get("https://anipython.com/user/profile/")
 
 # driver.page_source 是当前页面 text 内容
 element = etree.HTML(driver.page_source)
 
 # 也可以配合使用 xpath 语法进行解析
-result = element.xpath('//div[@class="container"]//text()')
+result = element.xpath('//h3//text()')
 print(result)
-# 输出: ['\n    ', '个人中心', '\n    ', '你的用户名是:\xa0', 'test_user', '\n']
-
+# 输出: ['test_user', '\xa0的个人中心']
+time.sleep(1)
 # 最后退出浏览器
 driver.close()
