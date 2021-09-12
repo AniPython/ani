@@ -28,7 +28,7 @@ class ArticleListView(ListView):
             lookups.children = [("title__icontains", w) for w in keywords.split()] + \
                                [("content__icontains", w) for w in keywords.split()] + \
                                [("tag__name__iexact", w) for w in keywords.split()]
-            article_queryset = article_queryset.filter(lookups)
+            article_queryset = article_queryset.filter(lookups).distinct()
 
         # 标签过滤
         tag = self.request.GET.get('tag', '')
