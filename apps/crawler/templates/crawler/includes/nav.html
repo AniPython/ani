@@ -1,3 +1,4 @@
+
 <div class="container-fluid my-3" id="nav">
     <a class="btn crawler-nav mb-2 me-2
         {% if crawler_is_active == '1' %}
@@ -68,12 +69,8 @@
 <script src="/static/js/jquery.min.js"></script>
 <script>
 
-    {#$(function() {#}
-    {#    if (window.location.pathname.split("/").length > 3) {#}
-    {##}
-    {#        $('.crawler-nav').removeClass("btn-primary").addClass("btn-outline-secondary")#}
-    {#        let element_id = window.location.pathname.split("/")[2]#}
-    {#        $('#' + element_id).removeClass("btn-outline-secondary").addClass("btn-primary")#}
-    {#    }#}
-    {# })#}
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>

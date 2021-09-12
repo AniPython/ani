@@ -1,14 +1,7 @@
-import re
 
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.contenttypes.models import ContentType
-from django.core.paginator import Paginator
 from django.db.models import Q
-from django.http import HttpResponse, QueryDict
-from django.shortcuts import render, redirect, get_object_or_404, reverse
-from django.utils.decorators import method_decorator
-from django.views import View
+from django.shortcuts import render, get_object_or_404, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from .forms import ArticleForm
@@ -28,15 +21,20 @@ class ArticleListView(ListView):
     def get_queryset(self):
         article_queryset = Article.objects.all()
         # 搜索过滤
-        q = self.request.GET.get('q', '')
-        if q is not None:
-            lookups = Q(title__icontains=q) | Q(content__icontains=q)
-            article_queryset = Article.objects.filter(lookups)
+        keywords = self.request.GET.get('q', '')
+        if keywords:
+            lookups = Q()
+            lookups.connector = "OR"
+            lookups.children = [("title__icontains", w) for w in keywords.split()] + \
+                               [("content__icontains", w) for w in keywords.split()] + \
+                               [("tag__name__iexact", w) for w in keywords.split()]
+            article_queryset = article_queryset.filter(lookups)
 
         # 标签过滤
         tag = self.request.GET.get('tag', '')
         if tag:
-            article_queryset = article_queryset.filter(tag__name__contains=tag).select_related('author').prefetch_related('tag')
+            article_queryset = article_queryset.filter(tag__name__contains=tag).select_related(
+                'author').prefetch_related('tag')
         else:
             article_queryset = article_queryset.all().select_related('author').prefetch_related('tag')
 
@@ -45,13 +43,16 @@ class ArticleListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['all_article_amount'] = self.get_queryset().count()
+        qs = self.get_queryset()
 
-        all_tags = Tag.objects.filter(article__in=self.get_queryset()).distinct()
+        context['all_article_amount'] = qs.count()
+
+        all_tags = Tag.objects.filter(article__in=qs).distinct()
         all_tags_name_list = [i.name for i in all_tags]
         tag_number_list = []
+
         for tag in all_tags:
-            tag_number_list.append(self.get_queryset().filter(tag__name__contains=tag.name).count())
+            tag_number_list.append(qs.filter(tag__name__contains=tag.name).count())
         context['tag_name_number'] = zip(all_tags_name_list, tag_number_list)
 
         q = self.request.GET.get('q', '')
@@ -73,8 +74,8 @@ def article_detail_view(request, pk):
     # 获取取单个 content_type
     content_type = ContentType.objects.get_for_model(Article)
     all_count = Comment.objects.filter(
-                content_type=content_type,
-                object_id=pk).all().count() // settings.COMMENT_PAGE_SIZE
+        content_type=content_type,
+        object_id=pk).all().count() // settings.COMMENT_PAGE_SIZE
 
     if request.htmx:
         page = int(request.GET.get('page'))
@@ -157,7 +158,6 @@ class ArticleDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('snippet:list')
-
 
 # def snippet_search_view(request):
 #     query = request.GET.get('q')
