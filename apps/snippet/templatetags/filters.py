@@ -1,9 +1,32 @@
-# encoding: utf-8
+import markdown.extensions.fenced_code
+
 from django import template
+from django.template.defaultfilters import stringfilter
+
+register = template.Library()
+
+
+@register.filter
+@stringfilter
+def convert_markdown(value):
+    return markdown.markdown(
+        value,
+        # https://python-markdown.github.io/extensions/#officially-supported-extensions
+        extensions=[
+            'fenced_code',  # 显示代码
+            'nl2br',        # 换行
+            'sane_lists',    # list
+            'tables',    # list
+            'md_in_html',
+        ]
+    )
+
+# encoding: utf-8
+# from django import template
 from datetime import datetime
 from django.utils.timezone import now as now_func, localtime
 
-register = template.Library()
+# register = template.Library()
 
 
 @register.filter

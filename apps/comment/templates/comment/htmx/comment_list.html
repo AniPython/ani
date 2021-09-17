@@ -3,7 +3,7 @@
 <div class="comment_group">
     {% for comment in comment_list %}
         <div class="comment-item mb-4">
-            <div style="margin-bottom: -8px">
+            <div style="margin-bottom: 6px">
                 <span class="fw-bolder text-primary">{{ comment.author.username }}</span>
                 <span class="text-secondary mx-2">{{ comment.create_time|time_since }}</span>
                 {% if comment.author == user %}
@@ -13,7 +13,9 @@
                     </a>
                 {% endif %}
             </div>
-            <p class="">{{ comment.content|safe }}</p>
+            <div class="markdown-body">
+                {{ comment.content|convert_markdown|safe }}
+            </div>
         </div>
         <hr>
     {% endfor %}

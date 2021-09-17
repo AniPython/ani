@@ -45,8 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',  # 手动加
     'debug_toolbar',
-    'ckeditor',
-    'ckeditor_uploader',
+
+    # 'ckeditor',
+    # 'ckeditor_uploader',
+
+    'mdeditor',
+
     'apps.aniuser',
     'apps.crawler',
     'apps.comment',
@@ -67,6 +71,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.baidu',
 
 ]
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 SITE_ID = 3
 
@@ -235,108 +241,164 @@ EMAIL_USE_SSL = True  # https
 
 # ckeditor 开始 ######################################################
 # CKEDITOR_BASEPATH = "/my_static/ckeditor/ckeditor/"
-CKEDITOR_UPLOAD_PATH = 'ckeditor/'
-CUSTOM_TOOLBAR = [
-    {
-        "name": "document",
-        "items": [
-            "Styles",
-            "Format",
-            'Font',
-            'FontSize',
-            "Bold",
-            "Italic",
-            "Underline",
-            "Strike",
-            "-",
-            "TextColor",
-            "BGColor",
-            "-",
-            "JustifyLeft",
-            "JustifyCenter",
-            "JustifyRight",
-            "JustifyBlock",
-        ],
-    },
-    {
-        "name": "widgets",
-        "items": [
-            "codesnippet",
-            "Undo",
-            "Redo",
-            "-",
-            "NumberedList",
-            "BulletedList",
-            "-",
-            "Outdent",
-            "Indent",
-            "-",
-            "Link",
-            "Unlink",
-            "-",
-            "Image",
-            "CodeSnippet",
-            "Table",
-            "HorizontalRule",
-            "Smiley",
-            "SpecialChar",
-            "-",
-            "Blockquote",
-            "-",
-            "ShowBlocks",
-            "Maximize",
-        ],
-    },
-]
-from ckeditor.configs import DEFAULT_CONFIG
+# CKEDITOR_UPLOAD_PATH = 'ckeditor/'
+# CUSTOM_TOOLBAR = [
+#     {
+#         "name": "document",
+#         "items": [
+#             "Styles",
+#             "Format",
+#             'Font',
+#             'FontSize',
+#             "Bold",
+#             "Italic",
+#             "Underline",
+#             "Strike",
+#             "-",
+#             "TextColor",
+#             "BGColor",
+#             "-",
+#             "JustifyLeft",
+#             "JustifyCenter",
+#             "JustifyRight",
+#             "JustifyBlock",
+#         ],
+#     },
+#     {
+#         "name": "widgets",
+#         "items": [
+#             "codesnippet",
+#             "Undo",
+#             "Redo",
+#             "-",
+#             "NumberedList",
+#             "BulletedList",
+#             "-",
+#             "Outdent",
+#             "Indent",
+#             "-",
+#             "Link",
+#             "Unlink",
+#             "-",
+#             "Image",
+#             "CodeSnippet",
+#             "Table",
+#             "HorizontalRule",
+#             "Smiley",
+#             "SpecialChar",
+#             "-",
+#             "Blockquote",
+#             "-",
+#             "ShowBlocks",
+#             "Maximize",
+#         ],
+#     },
+# ]
 
-CKEDITOR_CONFIGS = {
-    # "default": DEFAULT_CONFIG,
-    "content-custom-toolbar": {
-        "width": "100%",
-        "height": "500px",
-        "skin": "moono-lisa",
-        "toolbar": CUSTOM_TOOLBAR,
-        "toolbarGroups": None,
-        "extraPlugins": ",".join(["image2", "codesnippet"]),
-        "removePlugins": ",".join(["image"]),
-        "codeSnippet_theme": "xcode",
-    },
-    "comment-custom-toolbar": {
-        "width": "100%",
-        "height": "100px",
-        "fontSize_defaultLabel": "16px",
-        "skin": "moono-lisa",
-        "toolbar": [
-            {
-                "name": "document",
-                "items": [
 
-                ],
-            },
-            {
-                "name": "widgets",
-                "items": [
-                    "Styles",
-                    "Format",
-                    'Font',
-                    'FontSize',
-                    "TextColor",
-                    "BGColor",
-                    "CodeSnippet",
-                    "Smiley",
-                    "ShowBlocks",
-                    "Maximize",
-                ],
-            }
-        ],
-        "toolbarGroups": None,
-        "extraPlugins": "codesnippet",
-        # "removePlugins": ",".join(["image"]),
-        "codeSnippet_theme": "xcode",
-    },
-}
+# from ckeditor.configs import DEFAULT_CONFIG
+
+# CKEDITOR_CONFIGS = {
+#     # "default": DEFAULT_CONFIG,
+#     "content-custom-toolbar": {
+#         "width": "100%",
+#         "height": "500px",
+#         "skin": "moono-lisa",
+#         "toolbar": CUSTOM_TOOLBAR,
+#         "toolbarGroups": None,
+#         "extraPlugins": ",".join(["image2", "codesnippet"]),
+#         "removePlugins": ",".join(["image"]),
+#         "codeSnippet_theme": "xcode",
+#     },
+#     "comment-custom-toolbar": {
+#         "width": "100%",
+#         "height": "100px",
+#         "fontSize_defaultLabel": "16px",
+#         "skin": "moono-lisa",
+#         "toolbar": [
+#             {
+#                 "name": "document",
+#                 "items": [
+#
+#                 ],
+#             },
+#             {
+#                 "name": "widgets",
+#                 "items": [
+#                     "Styles",
+#                     "Format",
+#                     'Font',
+#                     'FontSize',
+#                     "TextColor",
+#                     "BGColor",
+#                     "CodeSnippet",
+#                     "Smiley",
+#                     "ShowBlocks",
+#                     "Maximize",
+#                 ],
+#             }
+#         ],
+#         "toolbarGroups": None,
+#         "extraPlugins": "codesnippet",
+#         # "removePlugins": ",".join(["image"]),
+#         "codeSnippet_theme": "xcode",
+#     },
+# }
 # ckeditor 结束 ######################################################
 
 # 每页评论的数量
 COMMENT_PAGE_SIZE = 3
+
+# mdeditor 开始
+MDEDITOR_CONFIGS = {
+    'default': {
+        'width': '100%',  # 自定义编辑框宽度
+        'height': 500,  # 自定义编辑框高度
+        'toolbar': ["undo", "redo", "|",
+                    "h1", "h2", "h3", "h5", "h6", "|",
+                    "bold", "del", "italic", "quote", "|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "link", "image", "code", "code-block", "table", "|",
+                    "help",
+                    "||", "preview", "watch", "fullscreen"],  # 自定义编辑框工具栏
+        'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],  # 图片上传格式类型
+        'image_folder': 'editor',  # 图片保存文件夹名称
+        'theme': 'default',  # 编辑框主题 ，dark / default
+        'preview_theme': 'default',  # 预览区域主题， dark / default
+        'editor_theme': 'default',  # edit区域主题，pastel-on-dark / default
+        'toolbar_autofixed': True,  # 工具栏是否吸顶
+        'search_replace': True,  # 是否开启查找替换
+        'emoji': True,  # 是否开启表情功能
+        'tex': True,  # 是否开启 tex 图表功能
+        'flow_chart': True,  # 是否开启流程图功能
+        'sequence': True,  # 是否开启序列图功能
+        'watch': True,  # 实时预览
+        'lineWrapping': False,  # 自动换行
+        'lineNumbers': True  # 行号
+    },
+    'comment': {
+        'width': '100%',  # 自定义编辑框宽度
+        'height': 200,  # 自定义编辑框高度
+        'toolbar': ["undo", "redo", "|",
+                    "h1", "h2", "h3", "h5", "h6", "|",
+                    "bold", "del", "italic", "quote", "|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "link", "image", "code", "code-block", "table", "|",
+                    "help",
+                    "||", "preview", "watch", "fullscreen"],  # 自定义编辑框工具栏
+        'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],  # 图片上传格式类型
+        'image_folder': 'editor',  # 图片保存文件夹名称
+        'theme': 'default',  # 编辑框主题 ，dark / default
+        'preview_theme': 'default',  # 预览区域主题， dark / default
+        'editor_theme': 'default',  # edit区域主题，pastel-on-dark / default
+        'toolbar_autofixed': True,  # 工具栏是否吸顶
+        'search_replace': True,  # 是否开启查找替换
+        'emoji': True,  # 是否开启表情功能
+        'tex': True,  # 是否开启 tex 图表功能
+        'flow_chart': True,  # 是否开启流程图功能
+        'sequence': True,  # 是否开启序列图功能
+        'watch': True,  # 实时预览
+        'lineWrapping': False,  # 自动换行
+        'lineNumbers': True  # 行号
+    },
+}

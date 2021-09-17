@@ -2,7 +2,6 @@
 {% load static %}
 {% load filters %}
 {% load django_htmx %}
-{#{% django_htmx_script %}#}
 {% load bootstrap4 %}
 
 
@@ -74,8 +73,8 @@
                 </div>
                 <hr>
                 {# 正文 #}
-                <div class="content-container my-4">
-                    {{ article.content|safe }}
+                <div class="content-container my-4 markdown-body">
+                    {{ article.content|convert_markdown|safe }}
                 </div>
             </div>
         </div>

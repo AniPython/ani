@@ -1,10 +1,11 @@
 import re
 
 from ckeditor.fields import RichTextField
-from ckeditor_uploader.fields import RichTextUploadingField
+# from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from mdeditor.fields import MDTextField
 from shortuuidfield import ShortUUIDField
 
 # User = get_user_model()
@@ -35,7 +36,8 @@ class Tag(models.Model):
 class Article(models.Model):
     id = ShortUUIDField(primary_key=True, max_length=16)
     title = models.CharField('标题', max_length=200)
-    content = RichTextUploadingField('正文', config_name='content-custom-toolbar')
+    # content = RichTextUploadingField('正文', config_name='content-custom-toolbar')
+    content = MDTextField('正文', config_name='default', null=False, blank=False)
     tag = models.ManyToManyField(Tag, verbose_name='标签',
                                  help_text='标签按住 win 的 Control 键或者 Mac 的 Command 键可多选')
     author = models.ForeignKey('aniuser.AniUser', on_delete=models.SET_NULL, null=True, verbose_name='作者')
