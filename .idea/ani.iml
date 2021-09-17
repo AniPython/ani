@@ -16,7 +16,6 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
       <excludeFolder url="file://$MODULE_DIR$/static_dist/ckeditor/ckeditor/plugins/codesnippet/lib" />
-      <excludeFolder url="file://$MODULE_DIR$/static_dist/mdeditor/js/lib" />
       <excludeFolder url="file://$MODULE_DIR$/static_dist/star-ratings/js/dist" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.9 (ani)" jdkType="Python SDK" />
