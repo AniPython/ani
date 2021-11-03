@@ -1,5 +1,6 @@
 import markdown.extensions.fenced_code
-
+from datetime import datetime
+from django.utils.timezone import now as now_func, localtime
 from django import template
 from django.template.defaultfilters import stringfilter
 
@@ -23,8 +24,7 @@ def convert_markdown(value):
 
 # encoding: utf-8
 # from django import template
-from datetime import datetime
-from django.utils.timezone import now as now_func, localtime
+
 
 # register = template.Library()
 
